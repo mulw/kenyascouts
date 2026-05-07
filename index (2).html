@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vigogo — The Elders' Council | Kenya Scouts Association</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --G1:#0a2e14; --G2:#14532d; --G3:#166534; --G4:#16a34a; --G5:#4ade80;
+  --Au:#92400e; --A1:#b45309; --A2:#d97706; --A3:#f59e0b; --A4:#fbbf24;
+  --R1:#991b1b; --R2:#dc2626;
+  --Cr:#fefce8; --W:#ffffff; --S:#f8faf8;
+  --I0:#0f172a; --I1:#1e293b; --I2:#475569; --I3:#94a3b8; --I4:#e2e8f0;
+  --shadow:0 4px 24px rgba(10,46,20,.10);
+  --shadowL:0 16px 64px rgba(10,46,20,.16);
+  --r:14px;
+  --rS:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--S);color:var(--I0);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--S)}::-webkit-scrollbar-thumb{background:var(--G3);border-radius:3px}
+
+/* ══ NAV ══════════════════════════════════════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:800;
+  height:70px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 52px;
+  background:rgba(255,255,255,.96);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--I4);
+  transition:box-shadow .3s;
+}
+.nav.scrolled{box-shadow:var(--shadow)}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand-emblem{
+  width:42px;height:42px;background:var(--G1);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 2px 10px rgba(10,46,20,.25);
+}
+.brand-emblem svg{width:22px;height:22px}
+.brand-words{display:flex;flex-direction:column;line-height:1.1}
+.brand-name{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--G1);letter-spacing:.02em}
+.brand-sub{font-size:.6rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--I3);margin-top:2px}
+.nav-menu{display:flex;gap:32px;list-style:none}
+.nav-menu a{text-decoration:none;color:var(--I2);font-size:.8rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-menu a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--G4);transform:scaleX(0);transition:transform .2s;border-radius:1px}
+.nav-menu a:hover{color:var(--G1)}.nav-menu a:hover::after{transform:scaleX(1)}
+.nav-btn{background:var(--G1);color:#fff;padding:10px 26px;border-radius:50px;font-size:.78rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .2s;box-shadow:0 3px 14px rgba(10,46,20,.22)}
+.nav-btn:hover{background:var(--G2);transform:translateY(-1px)}
+
+/* ══ HERO ══════════════════════════════════════════ */
+.hero{
+  min-height:100vh;display:grid;grid-template-columns:1fr 1fr;
+  padding-top:70px;
+}
+.hero-l{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 64px 80px 72px;
+  background:var(--W);
+  position:relative;overflow:hidden;
+}
+.hero-l::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(74,222,128,.08),transparent 70%);
+  pointer-events:none;
+}
+.pill{
+  display:inline-flex;align-items:center;gap:9px;
+  background:var(--Cr);border:1px solid rgba(146,64,14,.2);
+  border-radius:50px;padding:6px 16px;
+  margin-bottom:28px;align-self:flex-start;
+}
+.pill-dot{width:7px;height:7px;background:var(--A2);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+.pill span{font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--A1)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.hero-h{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.8rem,4.5vw,4.4rem);
+  font-weight:800;line-height:1.06;
+  color:var(--G1);margin-bottom:22px;
+}
+.hero-h em{font-style:italic;color:var(--A2)}
+.hero-p{font-size:1.02rem;line-height:1.85;color:var(--I2);max-width:460px;margin-bottom:38px;font-weight:300}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-P{background:var(--G1);color:#fff;padding:14px 32px;border-radius:50px;font-size:.85rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 18px rgba(10,46,20,.22);font-family:'Inter',sans-serif}
+.btn-P:hover{background:var(--G2);transform:translateY(-2px);box-shadow:0 8px 26px rgba(10,46,20,.3)}
+.btn-S{background:transparent;color:var(--G1);padding:14px 32px;border-radius:50px;font-size:.85rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:1.5px solid var(--G1);cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.btn-S:hover{background:rgba(10,46,20,.05);transform:translateY(-2px)}
+.hero-kpi{display:flex;gap:36px;margin-top:50px;padding-top:36px;border-top:1px solid var(--I4)}
+.kpi-num{font-family:'Playfair Display',serif;font-size:2.6rem;font-weight:700;color:var(--G1);line-height:1}
+.kpi-lbl{font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--I3);margin-top:4px}
+
+.hero-r{
+  background:var(--G1);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.hero-img{width:100%;height:100%;object-fit:cover;opacity:.45;display:block;flex:1}
+.hero-grad{position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,46,20,.5) 0%,rgba(180,83,9,.18) 100%)}
+.hero-card{
+  position:absolute;bottom:44px;left:44px;right:44px;
+  background:rgba(255,255,255,.09);backdrop-filter:blur(14px);
+  border:1px solid rgba(255,255,255,.18);border-radius:18px;
+  padding:26px 30px;
+}
+.hero-card-yr{font-family:'Playfair Display',serif;font-size:4rem;font-weight:800;color:rgba(251,191,36,.2);position:absolute;top:8px;right:22px;line-height:1}
+.hero-card-ttl{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:6px}
+.hero-card-body{font-size:.84rem;color:rgba(255,255,255,.6);line-height:1.65;max-width:80%}
+.hero-flags{position:absolute;top:0;left:0;right:0;height:6px;display:flex}
+.flag-blk{flex:1;background:var(--I0)}
+.flag-red{flex:1;background:var(--R2)}
+.flag-grn{flex:1;background:var(--G4)}
+.flag-wht{flex:1;background:#fff}
+
+/* ══ SECTIONS ══════════════════════════════════════ */
+.sec{padding:96px 72px}.sec-w{max-width:1160px;margin:0 auto}
+.lbl{display:inline-block;font-size:.65rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--A2);margin-bottom:12px}
+.sh{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3vw,2.8rem);font-weight:700;color:var(--G1);line-height:1.18;margin-bottom:16px}
+.sb{font-size:.98rem;line-height:1.85;color:var(--I2);font-weight:300;max-width:540px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ══ ABOUT ══════════════════════════════════════════ */
+.about-sec{background:var(--W)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:center}
+.img-stack{position:relative;height:540px}
+.img-main{position:absolute;top:0;left:0;width:73%;height:82%;object-fit:cover;border-radius:18px;box-shadow:var(--shadowL)}
+.img-sec{position:absolute;bottom:0;right:0;width:54%;height:58%;object-fit:cover;border-radius:14px;box-shadow:var(--shadow);border:5px solid #fff}
+.img-badge{
+  position:absolute;top:56%;left:66%;
+  background:var(--A2);color:#fff;border-radius:50%;
+  width:82px;height:82px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;border:4px solid #fff;
+  box-shadow:var(--shadow);
+}
+.img-badge strong{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;line-height:1}
+.img-badge span{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;margin-top:2px;opacity:.85}
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
+.pillar{background:var(--S);border-radius:var(--r);padding:20px 22px;border-left:3px solid var(--A3);transition:box-shadow .2s,transform .2s}
+.pillar:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
+.pillar-t{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--G1);margin-bottom:4px}
+.pillar-b{font-size:.78rem;color:var(--I3);line-height:1.6}
+
+/* ══ MAP ══════════════════════════════════════════ */
+.map-sec{background:var(--S)}
+.map-layout{display:grid;grid-template-columns:1fr 400px;gap:56px;align-items:start;margin-top:52px}
+.map-wrap{
+  background:var(--W);border-radius:22px;padding:30px;
+  box-shadow:var(--shadow);border:1px solid var(--I4);position:relative;
+}
+.map-hint-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--I4);
+}
+.map-hint-txt{font-size:.78rem;color:var(--I3);display:flex;align-items:center;gap:8px}
+.live{width:8px;height:8px;background:var(--G4);border-radius:50%;animation:pulse 1.8s ease-in-out infinite;display:inline-block}
+.map-legend{display:flex;align-items:center;gap:16px}
+.leg{display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--I3)}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* THE REAL KENYA SVG */
+#kenya{width:100%;display:block;cursor:pointer}
+#kenya .c{
+  stroke:#fff;stroke-width:.8;
+  transition:fill .18s,filter .18s;cursor:pointer;
+}
+#kenya .c:hover{filter:drop-shadow(0 4px 10px rgba(180,83,9,.3))}
+#kenya .c.done{fill:var(--G3) !important}
+#kenya .c.done:hover{fill:var(--G4) !important}
+/* colour groups matching the reference image */
+#kenya .cA{fill:#c8dba2}
+#kenya .cB{fill:#d6c88e}
+#kenya .cC{fill:#e8b87a}
+#kenya .cD{fill:#b8c9a3}
+#kenya .cE{fill:#a8c4a0}
+#kenya .cF{fill:#d4a870}
+#kenya .cG{fill:#c0c878}
+
+.map-tip{
+  position:absolute;background:var(--G1);color:#fff;
+  padding:8px 15px;border-radius:8px;font-size:.76rem;font-weight:500;
+  pointer-events:none;white-space:nowrap;opacity:0;transition:opacity .15s;
+  z-index:60;border:1px solid rgba(251,191,36,.4);top:0;left:0;
+}
+.map-tip.on{opacity:1}
+.prog-row{margin-top:20px}
+.prog-lbl{display:flex;justify-content:space-between;font-size:.72rem;color:var(--I3);margin-bottom:7px}
+.prog-lbl strong{color:var(--G2);font-size:.85rem}
+.prog-bg{height:7px;background:var(--I4);border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--G3),var(--A3));border-radius:4px;transition:width 1s ease}
+
+/* side */
+.side{display:flex;flex-direction:column;gap:22px}
+.info-card{background:var(--W);border-radius:18px;padding:28px;box-shadow:var(--shadow);border:1px solid var(--I4)}
+.info-card h4{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--G1);margin-bottom:8px}
+.info-card p{font-size:.83rem;color:var(--I2);line-height:1.65}
+.cta-map{
+  margin-top:18px;width:100%;
+  background:var(--G1);color:#fff;border:none;border-radius:10px;
+  padding:13px;font-size:.8rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  cursor:pointer;transition:background .2s,transform .2s;font-family:'Inter',sans-serif;
+  display:none;
+}
+.cta-map:hover{background:var(--G2);transform:translateY(-1px)}
+.stats-dark{background:var(--G1);border-radius:18px;padding:28px;color:#fff}
+.stats-dark-ttl{font-size:.64rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(251,191,36,.65);margin-bottom:18px}
+.stats-rows{display:flex;flex-direction:column;gap:14px}
+.stats-row{display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.07)}
+.stats-row:last-child{border-bottom:none;padding-bottom:0}
+.stats-row-lbl{font-size:.8rem;color:rgba(255,255,255,.55)}
+.stats-row-val{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--A4)}
+.img-side{border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+.img-side img{width:100%;height:160px;object-fit:cover;display:block}
+.img-side-body{padding:18px 20px;background:var(--W)}
+.img-side-body h5{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--G1);margin-bottom:5px}
+.img-side-body p{font-size:.77rem;color:var(--I3);line-height:1.55;margin-bottom:10px}
+.img-side-body a{font-size:.73rem;font-weight:700;color:var(--G3);text-decoration:none;letter-spacing:.05em;text-transform:uppercase;border-bottom:1.5px solid var(--G4)}
+
+/* ══ MODAL ══════════════════════════════════════════ */
+.ovl{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(5,20,10,.75);backdrop-filter:blur(10px);
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.ovl.open{opacity:1;pointer-events:all}
+.modal{
+  background:var(--W);border-radius:24px;max-width:580px;width:100%;
+  box-shadow:var(--shadowL);
+  transform:translateY(22px) scale(.97);
+  transition:transform .36s cubic-bezier(.34,1.35,.64,1);
+  max-height:92vh;overflow-y:auto;
+  border-top:4px solid var(--A3);
+}
+.ovl.open .modal{transform:translateY(0) scale(1)}
+.mh{padding:32px 36px 24px;border-bottom:1px solid var(--I4);position:relative}
+.m-tag{
+  display:inline-block;background:var(--Cr);color:var(--A1);
+  font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  padding:5px 14px;border-radius:50px;border:1px solid rgba(146,64,14,.2);margin-bottom:10px;
+}
+.mh h2{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:700;color:var(--G1);line-height:1.2}
+.mh p{font-size:.83rem;color:var(--I2);margin-top:6px;font-weight:300}
+.m-close{
+  position:absolute;top:22px;right:24px;width:36px;height:36px;
+  background:var(--S);border:none;border-radius:50%;cursor:pointer;
+  font-size:.95rem;color:var(--I2);display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.m-close:hover{background:var(--I4)}
+.mb{padding:28px 36px 36px}
+.id-note{
+  background:var(--Cr);border-left:3px solid var(--A3);border-radius:0 10px 10px 0;
+  padding:12px 16px;font-size:.8rem;color:var(--Au);line-height:1.6;margin-bottom:22px;
+}
+.id-note strong{font-weight:700}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.fg.h{margin-bottom:0}
+.fl{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--I1)}
+.fl .r{color:var(--R2);margin-left:2px}
+input[type=text],input[type=email],input[type=tel],input[type=number],select,textarea{
+  border:1.5px solid var(--I4);border-radius:10px;padding:11px 15px;
+  font-size:.92rem;font-family:'Inter',sans-serif;color:var(--I0);
+  background:#fafafa;outline:none;width:100%;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--G3);background:var(--W);
+  box-shadow:0 0 0 3px rgba(22,101,52,.1);
+}
+input.er,select.er{border-color:var(--R2)}
+.em{font-size:.72rem;color:var(--R2);display:none;margin-top:-4px}
+.em.on{display:block}
+.mdiv{border:none;border-top:1px solid var(--I4);margin:20px 0}
+.sub-btn{
+  width:100%;padding:15px;
+  background:var(--G1);color:#fff;border:none;border-radius:12px;
+  font-family:'Inter',sans-serif;font-size:.88rem;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
+  transition:background .2s,transform .2s,box-shadow .2s;
+  box-shadow:0 4px 18px rgba(10,46,20,.2);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.sub-btn:hover{background:var(--G2);transform:translateY(-1px);box-shadow:0 8px 26px rgba(10,46,20,.28)}
+.sub-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:rot .7s linear infinite;display:none}
+@keyframes rot{to{transform:rotate(360deg)}}
+/* success */
+.sw{padding:50px 36px;text-align:center}
+.sc{
+  width:74px;height:74px;background:linear-gradient(135deg,var(--G3),var(--G1));
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 22px;box-shadow:0 8px 28px rgba(10,46,20,.25);
+}
+.sc svg{width:32px;height:32px;stroke:#fff;fill:none;stroke-width:2.5}
+.sw h3{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--G1);margin-bottom:12px}
+.sw p{font-size:.88rem;color:var(--I2);line-height:1.75}
+.ref{
+  background:var(--S);border:1px dashed var(--A3);border-radius:10px;
+  padding:14px 20px;font-family:'Playfair Display',serif;font-size:1.15rem;
+  font-weight:700;color:var(--G1);letter-spacing:.08em;margin:20px 0;
+}
+.ref span{font-size:.66rem;font-family:'Inter',sans-serif;font-weight:400;color:var(--I3);display:block;margin-bottom:4px;letter-spacing:.12em;text-transform:uppercase}
+
+/* ══ MEMBERS ══════════════════════════════════════ */
+.members-sec{background:var(--W)}
+.members-hdr{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:44px}
+.m-count-badge{background:var(--S);border:1px solid var(--I4);border-radius:50px;padding:8px 18px;font-size:.78rem;font-weight:600;color:var(--I2)}
+.m-count-badge strong{color:var(--G1)}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.mc{
+  background:var(--S);border-radius:16px;padding:24px;
+  border:1px solid var(--I4);
+  transition:box-shadow .22s,transform .22s;position:relative;overflow:hidden;
+}
+.mc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--G3),var(--A3))}
+.mc:hover{box-shadow:var(--shadow);transform:translateY(-3px)}
+.mc-av{
+  width:48px;height:48px;background:var(--G1);border-radius:50%;
+  color:#fff;font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;
+  display:flex;align-items:center;justify-content:center;margin-bottom:14px;
+}
+.mc-name{font-family:'Playfair Display',serif;font-size:1.02rem;font-weight:700;color:var(--G1);margin-bottom:4px}
+.mc-county{font-size:.76rem;color:var(--G3);font-weight:600;margin-bottom:3px}
+.mc-role{font-size:.74rem;color:var(--I3)}
+.mc-date{font-size:.68rem;color:var(--I4);margin-top:12px;font-style:italic}
+.empty{grid-column:1/-1;padding:64px 20px;text-align:center}
+.empty-ring{width:80px;height:80px;background:var(--S);border:2px dashed var(--I4);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.empty-ring svg{width:32px;height:32px;stroke:var(--I4);fill:none;stroke-width:1.5}
+.empty h4{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--I2);margin-bottom:6px}
+.empty p{font-size:.83rem;color:var(--I3);max-width:300px;margin:0 auto;line-height:1.65}
+
+/* ══ CONTACT ══════════════════════════════════════ */
+.contact-sec{
+  background:var(--G1);position:relative;overflow:hidden;
+}
+.contact-sec::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 75% 50%,rgba(180,83,9,.15),transparent);
+  pointer-events:none;
+}
+.contact-sec::after{
+  content:'VIGOGO';
+  position:absolute;right:-60px;top:50%;transform:translateY(-50%);
+  font-family:'Playfair Display',serif;font-size:12rem;font-weight:800;
+  color:rgba(255,255,255,.025);pointer-events:none;line-height:1;letter-spacing:-.02em;
+}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;position:relative}
+.c-lbl{color:rgba(251,191,36,.6)}
+.c-sh{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3vw,2.6rem);font-weight:700;color:#fff;line-height:1.18;margin-bottom:16px}
+.c-desc{font-size:.95rem;line-height:1.85;color:rgba(255,255,255,.55);font-weight:300;margin-bottom:32px}
+.citems{display:flex;flex-direction:column;gap:12px}
+.ci{
+  display:flex;align-items:center;gap:16px;text-decoration:none;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
+  border-radius:12px;padding:14px 18px;transition:background .2s;
+}
+.ci:hover{background:rgba(255,255,255,.1)}
+.ci-ico{
+  width:42px;height:42px;background:rgba(180,83,9,.18);
+  border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;
+}
+.ci-ico svg{width:18px;height:18px;stroke:var(--A4);fill:none;stroke-width:1.8}
+.ci-l{font-size:.66rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.38)}
+.ci-v{font-size:.88rem;color:rgba(255,255,255,.88);font-weight:500;margin-top:2px}
+.socials{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+.soc{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 20px;border-radius:50px;font-size:.75rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;text-decoration:none;
+  border:1.5px solid;transition:all .2s;
+}
+.soc-fb{color:#7eb0ff;border-color:rgba(126,176,255,.35)}.soc-fb:hover{background:rgba(126,176,255,.1)}
+.soc-web{color:var(--A4);border-color:rgba(251,191,36,.35)}.soc-web:hover{background:rgba(251,191,36,.1)}
+/* form */
+.cform{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:36px}
+.cform h3{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:#fff;margin-bottom:22px}
+.cfl{font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);display:block;margin-bottom:6px}
+.cfg{margin-bottom:15px}
+.cfi{background:rgba(255,255,255,.08)!important;border-color:rgba(255,255,255,.14)!important;color:#fff!important}
+.cfi::placeholder{color:rgba(255,255,255,.28)}
+.cfi:focus{border-color:rgba(251,191,36,.55)!important;box-shadow:0 0 0 3px rgba(251,191,36,.1)!important}
+.cf-sub{
+  width:100%;padding:14px;
+  background:var(--A2);color:var(--G1);border:none;border-radius:10px;
+  font-family:'Inter',sans-serif;font-size:.83rem;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;cursor:pointer;
+  transition:background .2s,transform .2s;margin-top:4px;
+}
+.cf-sub:hover{background:var(--A3);transform:translateY(-1px)}
+
+/* ══ FOOTER ══════════════════════════════════════ */
+footer{background:#060d09;padding:38px 72px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.f-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.f-em{width:34px;height:34px;background:var(--G2);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.f-em svg{width:16px;height:16px}
+.f-name{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:rgba(255,255,255,.4)}
+.f-links{display:flex;gap:22px}
+.f-links a{font-size:.72rem;color:rgba(255,255,255,.28);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s}
+.f-links a:hover{color:var(--A3)}
+.f-copy{font-size:.72rem;color:rgba(255,255,255,.18)}
+.f-flag{display:flex;height:3px;width:60px;border-radius:2px;overflow:hidden}
+.f-flag div{flex:1}
+
+/* ══ TOAST ══════════════════════════════════════ */
+.toast{
+  position:fixed;bottom:30px;right:30px;
+  background:var(--G1);color:#fff;
+  padding:13px 22px;border-radius:12px;font-size:.84rem;font-weight:500;
+  box-shadow:var(--shadowL);z-index:9999;
+  transform:translateY(16px);opacity:0;
+  transition:all .35s cubic-bezier(.34,1.5,.64,1);
+  border-left:3px solid var(--A3);max-width:320px;line-height:1.5;
+}
+.toast.on{transform:translateY(0);opacity:1}
+
+/* ══ RESPONSIVE ══════════════════════════════════ */
+@media(max-width:960px){
+  .nav{padding:0 24px}.nav-menu,.nav-btn{display:none}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .hero-l{padding:56px 28px}.hero-r{height:300px}
+  .sec{padding:64px 28px}
+  .about-grid,.map-layout,.cgrid{grid-template-columns:1fr;gap:40px}
+  .img-stack{height:300px}
+  footer{padding:30px 28px;flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-brand">
+    <div class="brand-emblem">
+      <!-- Fleur-de-lis scout emblem -->
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C10.5 4 9 6 9 8c0 1.5.8 2.5 2 3L9 22h6l-2-11c1.2-.5 2-1.5 2-3 0-2-1.5-4-3-6z" fill="#f59e0b"/>
+        <path d="M6 9c-2 0-4 1-4 3s2 3 4 3l2-3-2-3zM18 9c2 0 4 1 4 3s-2 3-4 3l-2-3 2-3z" fill="#f59e0b"/>
+        <circle cx="12" cy="20" r="1.2" fill="#f59e0b"/>
+        <path d="M10 19.5h4" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="brand-words">
+      <span class="brand-name">Vigogo</span>
+      <span class="brand-sub">Kenya Scouts Association</span>
+    </div>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="#about">About</a></li>
+    <li><a href="#register">Register</a></li>
+    <li><a href="#members">Members</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#register" class="nav-btn">Register Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-l">
+    <div class="pill"><span class="pill-dot"></span><span>Kenya Scouts Association — Est. 1910</span></div>
+    <h1 class="hero-h">Vigogo —<br><em>The Elders'<br>Council</em></h1>
+    <p class="hero-p">A distinguished fellowship of seasoned Scout leaders united across all 47 counties of Kenya — carrying forward over a century of wisdom, service, and the enduring spirit of Scouting.</p>
+    <div class="hero-btns">
+      <a href="#register" class="btn-P">Register Your County</a>
+      <a href="#about"    class="btn-S">Learn More</a>
+    </div>
+    <div class="hero-kpi">
+      <div><div class="kpi-num" id="kpi-e">12</div><div class="kpi-lbl">Registered Elders</div></div>
+      <div><div class="kpi-num" id="kpi-c">8</div><div class="kpi-lbl">Active Counties</div></div>
+      <div><div class="kpi-num">47</div><div class="kpi-lbl">Total Counties</div></div>
+    </div>
+  </div>
+  <div class="hero-r">
+    <div class="hero-flags"><div class="flag-blk"></div><div class="flag-red"></div><div class="flag-grn"></div><div class="flag-wht"></div></div>
+    <img class="hero-img"
+      src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&q=80&fit=crop&crop=center"
+      alt="Kenya landscape — Maasai Mara savannah at sunrise"
+      onerror="this.src='https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=900&q=80'">
+    <div class="hero-grad"></div>
+    <div class="hero-card">
+      <div class="hero-card-yr">1910</div>
+      <div class="hero-card-ttl">Guardians of Scouting</div>
+      <div class="hero-card-body">Preserving heritage and mentoring the next generation of Scout leaders across Kenya's 47 counties since the founding of the movement.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-sec sec" id="about">
+  <div class="sec-w">
+    <div class="about-grid">
+      <div class="img-stack rv">
+        <img class="img-main"
+          src="https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?w=800&q=80&fit=crop"
+          alt="Kenyan community elders"
+          onerror="this.src='https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&q=80'">
+        <img class="img-sec"
+          src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=600&q=80&fit=crop"
+          alt="Scout leader ceremony"
+          onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&q=80'">
+        <div class="img-badge"><strong>1910</strong><span>Founded</span></div>
+      </div>
+      <div>
+        <span class="lbl rv">Who We Are</span>
+        <h2 class="sh rv d1">Custodians of a Century of Scouting</h2>
+        <p class="sb rv d2">Vigogo is the prestigious Elders' Council of the Kenya Scouts Association — a brotherhood and sisterhood of experienced Scout leaders who have given decades to building Kenya's youth. We serve as the living memory and moral compass of the Scouting movement nationwide.</p>
+        <p class="sb rv d3" style="margin-top:14px">Our elders mentor active leaders, advise county and national councils, and preserve the traditions that have made Kenyan Scouting a model for East Africa for over a century.</p>
+        <div class="pillars rv d4">
+          <div class="pillar"><div class="pillar-t">Heritage</div><div class="pillar-b">Preserving Scouting traditions and institutional knowledge across generations.</div></div>
+          <div class="pillar"><div class="pillar-t">Mentorship</div><div class="pillar-b">Guiding the next tier of Scout leaders with lived experience and wisdom.</div></div>
+          <div class="pillar"><div class="pillar-t">Service</div><div class="pillar-b">Continued commitment to community and national development.</div></div>
+          <div class="pillar"><div class="pillar-t">Unity</div><div class="pillar-b">Connecting elders from all 47 counties in shared purpose.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP / REGISTER -->
+<section class="map-sec sec" id="register">
+  <div class="sec-w">
+    <div style="max-width:560px;margin-bottom:52px">
+      <span class="lbl rv">County Registration</span>
+      <h2 class="sh rv d1">Select Your County</h2>
+      <p class="sb rv d2">Kenya has 47 counties, each represented in the Vigogo council. Click on your county on the map to open the registration form. Your National ID ensures no duplicate registrations across the entire system.</p>
+    </div>
+    <div class="map-layout">
+      <!-- MAP PANEL -->
+      <div class="rv">
+        <div class="map-wrap" id="map-panel">
+          <div class="map-tip" id="mtt"></div>
+          <div class="map-hint-bar">
+            <span class="map-hint-txt"><span class="live"></span> Click on any county to register</span>
+            <div class="map-legend">
+              <div class="leg"><div class="leg-dot" style="background:var(--G3)"></div> Registered</div>
+              <div class="leg"><div class="leg-dot" style="background:#c8dba2"></div> Available</div>
+            </div>
+          </div>
+
+          <!-- KENYA SVG MAP — geographically proportioned, all 47 counties -->
+          <svg id="kenya" viewBox="0 0 520 580" xmlns="http://www.w3.org/2000/svg">
+
+            <!-- ═══════════════════════════════════════
+                 NORTHERN KENYA
+            ════════════════════════════════════════ -->
+            <!-- Turkana — large NW county -->
+            <path class="c cA" data-n="Turkana"
+              d="M30,40 L160,30 L175,90 L165,140 L140,165 L110,180 L70,185 L35,175 L20,140 L25,90 Z"/>
+
+            <!-- Marsabit — large N central -->
+            <path class="c cB" data-n="Marsabit"
+              d="M165,30 L305,25 L315,90 L308,130 L285,155 L250,160 L200,158 L175,140 L165,90 Z"/>
+
+            <!-- Mandera — far NE -->
+            <path class="c cC" data-n="Mandera"
+              d="M310,25 L430,20 L438,45 L445,80 L435,105 L410,120 L370,125 L335,118 L315,95 L308,60 Z"/>
+
+            <!-- Wajir — NE -->
+            <path class="c cD" data-n="Wajir"
+              d="M315,95 L435,105 L445,150 L450,210 L440,240 L415,255 L380,260 L345,255 L320,240 L310,200 L308,155 Z"/>
+
+            <!-- ═══════════════════════════════════════
+                 NW RIFT / WESTERN HIGHLANDS
+            ════════════════════════════════════════ -->
+            <!-- West Pokot -->
+            <path class="c cE" data-n="West Pokot"
+              d="M35,175 L110,180 L118,210 L115,240 L90,255 L55,258 L30,245 L25,215 Z"/>
+
+            <!-- Samburu -->
+            <path class="c cA" data-n="Samburu"
+              d="M175,140 L285,155 L292,200 L288,235 L262,248 L230,250 L200,244 L178,228 L170,195 Z"/>
+
+            <!-- Baringo -->
+            <path class="c cB" data-n="Baringo"
+              d="M115,240 L178,228 L185,262 L182,295 L158,308 L128,310 L105,298 L95,272 L90,255 Z"/>
+
+            <!-- Laikipia -->
+            <path class="c cC" data-n="Laikipia"
+              d="M185,262 L262,248 L268,280 L265,310 L238,320 L208,318 L185,305 Z"/>
+
+            <!-- Isiolo -->
+            <path class="c cD" data-n="Isiolo"
+              d="M268,280 L320,240 L340,255 L345,290 L335,318 L305,325 L275,320 Z"/>
+
+            <!-- Garissa -->
+            <path class="c cE" data-n="Garissa"
+              d="M345,255 L440,240 L452,295 L458,355 L445,385 L415,395 L378,390 L348,372 L335,340 L332,305 Z"/>
+
+            <!-- ═══════════════════════════════════════
+                 WESTERN KENYA
+            ════════════════════════════════════════ -->
+            <!-- Busia -->
+            <path class="c cA" data-n="Busia"
+              d="M20,245 L55,258 L58,285 L52,308 L30,318 L15,305 L12,278 Z"/>
+
+            <!-- Bungoma -->
+            <path class="c cB" data-n="Bungoma"
+              d="M30,245 L55,258 L90,255 L92,280 L88,310 L62,318 L30,318 Z"/>
+
+            <!-- Trans Nzoia -->
+            <path class="c cC" data-n="Trans Nzoia"
+              d="M90,255 L128,310 L105,325 L80,328 L60,320 L58,295 L62,270 Z"/>
+
+            <!-- Elgeyo-Marakwet -->
+            <path class="c cD" data-n="Elgeyo-Marakwet"
+              d="M128,310 L158,308 L162,338 L155,362 L132,368 L110,358 L105,335 Z"/>
+
+            <!-- Uasin Gishu -->
+            <path class="c cE" data-n="Uasin Gishu"
+              d="M105,325 L130,318 L158,308 L162,338 L148,355 L120,358 L100,348 Z"/>
+
+            <!-- Nandi -->
+            <path class="c cA" data-n="Nandi"
+              d="M100,348 L120,358 L148,355 L152,380 L138,400 L112,402 L95,390 L92,370 Z"/>
+
+            <!-- Kakamega -->
+            <path class="c cB" data-n="Kakamega"
+              d="M58,285 L92,280 L100,312 L95,348 L70,355 L45,345 L38,320 L40,298 Z"/>
+
+            <!-- Vihiga -->
+            <path class="c cC" data-n="Vihiga"
+              d="M45,345 L70,355 L72,375 L60,388 L42,385 L36,368 Z"/>
+
+            <!-- ═══════════════════════════════════════
+                 NYANZA
+            ════════════════════════════════════════ -->
+            <!-- Siaya -->
+            <path class="c cD" data-n="Siaya"
+              d="M20,350 L45,345 L60,388 L48,410 L25,418 L10,405 L8,378 Z"/>
+
+            <!-- Kisumu -->
+            <path class="c cA" data-n="Kisumu"
+              d="M42,385 L72,375 L80,400 L72,422 L52,430 L30,428 L25,418 Z"/>
+
+            <!-- Homa Bay -->
+            <path class="c cB" data-n="Homa Bay"
+              d="M25,418 L52,430 L58,452 L48,470 L28,475 L10,462 L8,440 Z"/>
+
+            <!-- Migori -->
+            <path class="c cC" data-n="Migori"
+              d="M10,462 L28,475 L32,498 L22,515 L8,512 L5,488 Z"/>
+
+            <!-- Kisii -->
+            <path class="c cD" data-n="Kisii"
+              d="M58,452 L90,445 L98,468 L88,488 L65,492 L48,480 Z"/>
+
+            <!-- Nyamira -->
+            <path class="c cE" data-n="Nyamira"
+              d="M48,480 L65,492 L68,510 L52,518 L34,510 L32,498 L48,475 Z"/>
+
+            <!-- ═══════════════════════════════════════
+                 RIFT VALLEY SOUTH
+            ════════════════════════════════════════ -->
+            <!-- Kericho -->
+            <path class="c cA" data-n="Kericho"
+              d="M92,370 L120,358 L132,368 L138,400 L125,420 L100,425 L85,412 Z"/>
+
+            <!-- Bomet -->
+            <path class="c cB" data-n="Bomet"
+              d="M85,412 L100,425 L105,448 L90,462 L68,460 L62,440 L72,422 L80,400 Z"/>
+
+            <!-- Narok -->
+            <path class="c cC" data-n="Narok"
+              d="M85,412 L112,402 L140,408 L168,420 L185,445 L192,478 L170,500 L140,510 L108,502 L85,480 L72,458 L68,460 L90,462 L105,448 Z"/>
+
+            <!-- Kajiado -->
+            <path class="c cD" data-n="Kajiado"
+              d="M192,478 L230,462 L268,455 L295,462 L310,490 L315,525 L295,545 L255,552 L215,545 L185,530 L170,505 Z"/>
+
+            <!-- ═══════════════════════════════════════
+                 CENTRAL / NAIROBI
+            ════════════════════════════════════════ -->
+            <!-- Nakuru -->
+            <path class="c cE" data-n="Nakuru"
+              d="M140,310 L182,295 L185,328 L180,362 L162,378 L140,380 L120,370 L118,345 L128,318 Z"/>
+
+            <!-- Nyandarua -->
+            <path class="c cA" data-n="Nyandarua"
+              d="M185,305 L238,320 L240,348 L225,368 L198,372 L178,358 L175,335 Z"/>
+
+            <!-- Nyeri -->
+            <path class="c cB" data-n="Nyeri"
+              d="M238,320 L275,320 L280,348 L272,375 L250,382 L225,378 L222,355 Z"/>
+
+            <!-- Muranga -->
+            <path class="c cC" data-n="Muranga"
+              d="M272,375 L305,368 L312,390 L305,415 L280,422 L258,415 L248,395 Z"/>
+
+            <!-- Kirinyaga -->
+            <path class="c cD" data-n="Kirinyaga"
+              d="M280,348 L320,340 L328,365 L318,390 L305,395 L285,388 L272,375 Z"/>
+
+            <!-- Tharaka-Nithi -->
+            <path class="c cE" data-n="Tharaka-Nithi"
+              d="M305,325 L335,318 L342,345 L338,372 L318,378 L305,365 Z"/>
+
+            <!-- Embu -->
+            <path class="c cA" data-n="Embu"
+              d="M318,378 L345,370 L350,395 L338,415 L318,418 L305,410 Z"/>
+
+            <!-- Kiambu -->
+            <path class="c cB" data-n="Kiambu"
+              d="M222,355 L258,345 L265,368 L258,392 L235,400 L210,395 L202,375 Z"/>
+
+            <!-- Nairobi (small, prominent) -->
+            <path class="c cG" data-n="Nairobi"
+              d="M248,392 L272,385 L278,402 L268,418 L248,420 L236,408 Z"/>
+
+            <!-- Machakos -->
+            <path class="c cC" data-n="Machakos"
+              d="M278,402 L318,395 L330,415 L335,448 L315,462 L290,465 L265,455 L258,435 L260,415 Z"/>
+
+            <!-- Makueni -->
+            <path class="c cD" data-n="Makueni"
+              d="M265,455 L315,462 L330,480 L325,512 L305,522 L275,520 L255,508 L248,488 Z"/>
+
+            <!-- Kitui -->
+            <path class="c cE" data-n="Kitui"
+              d="M335,318 L380,315 L395,340 L400,390 L395,430 L378,448 L350,452 L330,435 L325,400 L328,365 L338,345 Z"/>
+
+            <!-- ═══════════════════════════════════════
+                 COAST
+            ════════════════════════════════════════ -->
+            <!-- Tana River -->
+            <path class="c cA" data-n="Tana River"
+              d="M378,390 L445,385 L455,425 L460,465 L448,490 L420,498 L390,492 L365,475 L355,448 L352,415 Z"/>
+
+            <!-- Lamu -->
+            <path class="c cB" data-n="Lamu"
+              d="M452,355 L495,345 L505,380 L498,415 L475,425 L450,420 L445,390 Z"/>
+
+            <!-- Kilifi -->
+            <path class="c cC" data-n="Kilifi"
+              d="M390,492 L448,490 L460,520 L455,550 L430,560 L400,555 L378,538 L370,515 Z"/>
+
+            <!-- Mombasa (small, coastal) -->
+            <path class="c cD" data-n="Mombasa"
+              d="M430,558 L455,550 L462,568 L450,576 L430,576 L418,565 Z"/>
+
+            <!-- Kwale -->
+            <path class="c cE" data-n="Kwale"
+              d="M305,522 L378,538 L382,558 L360,570 L325,570 L298,555 Z"/>
+
+            <!-- Taita-Taveta -->
+            <path class="c cA" data-n="Taita-Taveta"
+              d="M248,488 L305,480 L325,510 L325,545 L298,555 L265,548 L240,535 L230,512 Z"/>
+
+            <!-- ═══════════════════════════════════════
+                 COUNTY LABELS (key counties)
+            ════════════════════════════════════════ -->
+            <text x="88"  y="108" text-anchor="middle" fill="rgba(10,46,20,.7)" font-size="9.5" font-family="Inter,sans-serif" font-weight="700" pointer-events="none">Turkana</text>
+            <text x="232" y="88"  text-anchor="middle" fill="rgba(10,46,20,.7)" font-size="9.5" font-family="Inter,sans-serif" font-weight="700" pointer-events="none">Marsabit</text>
+            <text x="373" y="65"  text-anchor="middle" fill="rgba(10,46,20,.7)" font-size="9"   font-family="Inter,sans-serif" font-weight="700" pointer-events="none">Mandera</text>
+            <text x="385" y="178" text-anchor="middle" fill="rgba(10,46,20,.7)" font-size="9"   font-family="Inter,sans-serif" font-weight="700" pointer-events="none">Wajir</text>
+            <text x="395" y="318" text-anchor="middle" fill="rgba(10,46,20,.7)" font-size="8.5" font-family="Inter,sans-serif" font-weight="700" pointer-events="none">Garissa</text>
+            <text x="230" y="198" text-anchor="middle" fill="rgba(10,46,20,.65)" font-size="8" font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Samburu</text>
+            <text x="258" y="404" text-anchor="middle" fill="white"             font-size="8"   font-family="Inter,sans-serif" font-weight="700" pointer-events="none">Nairobi</text>
+            <text x="152" y="345" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7.5" font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Nakuru</text>
+            <text x="255" y="355" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7.5" font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Nyeri</text>
+            <text x="62"  y="320" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7"   font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Kakamega</text>
+            <text x="50"  y="408" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7"   font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Kisumu</text>
+            <text x="40"  y="450" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7"   font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Homa Bay</text>
+            <text x="138" y="460" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7.5" font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Narok</text>
+            <text x="415" y="440" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7.5" font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Tana River</text>
+            <text x="428" y="527" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7.5" font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Kilifi</text>
+            <text x="445" y="565" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7"   font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Mombasa</text>
+            <text x="290" y="535" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7"   font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Kwale</text>
+            <text x="278" y="518" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="6.5" font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Taita-Taveta</text>
+            <text x="205" y="500" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7"   font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Kajiado</text>
+            <text x="385" y="382" text-anchor="middle" fill="rgba(10,46,20,.6)" font-size="7.5" font-family="Inter,sans-serif" font-weight="600" pointer-events="none">Kitui</text>
+          </svg>
+
+          <div class="prog-row">
+            <div class="prog-lbl"><span>Registration coverage</span><strong id="prog-txt">0 / 47 counties</strong></div>
+            <div class="prog-bg"><div class="prog-fill" id="prog-bar" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDE PANEL -->
+      <div class="side rv d2">
+        <div class="info-card" id="info-card">
+          <h4 id="card-h">Select a County</h4>
+          <p id="card-p">Hover over or tap any county on the map to see details, then click to register.</p>
+          <button class="cta-map" id="card-btn" onclick="openM(currentCo)">Register for This County</button>
+        </div>
+
+        <div class="stats-dark">
+          <div class="stats-dark-ttl">Registration Overview</div>
+          <div class="stats-rows">
+            <div class="stats-row"><span class="stats-row-lbl">Total Elders</span><span class="stats-row-val" id="sv-e">12</span></div>
+            <div class="stats-row"><span class="stats-row-lbl">Counties Active</span><span class="stats-row-val" id="sv-c">8</span></div>
+            <div class="stats-row"><span class="stats-row-lbl">Counties Remaining</span><span class="stats-row-val" id="sv-r">39</span></div>
+          </div>
+        </div>
+
+        <div class="img-side">
+          <img src="https://images.unsplash.com/photo-1504438190342-5951e134ffee?w=600&q=80&fit=crop"
+            alt="Kenya Scout elders gathering"
+            onerror="this.src='https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=600&q=80'">
+          <div class="img-side-body">
+            <h5>Need assistance registering?</h5>
+            <p>Contact the Vigogo secretariat for support with your county registration process.</p>
+            <a href="#contact">Contact the Office</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERS -->
+<section class="members-sec sec" id="members">
+  <div class="sec-w">
+    <div class="members-hdr">
+      <div>
+        <span class="lbl rv">Our Community</span>
+        <h2 class="sh rv d1">Registered Elders</h2>
+      </div>
+      <div class="m-count-badge rv d2"><strong id="mc">12</strong> elders registered</div>
+    </div>
+    <div class="mgrid" id="mgrid"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-sec sec" id="contact">
+  <div class="sec-w">
+    <div class="cgrid">
+      <div>
+        <span class="lbl c-lbl rv">Get In Touch</span>
+        <h2 class="c-sh rv d1">Contact the Vigogo Council</h2>
+        <p class="c-desc rv d2">Reach out to us for membership queries, county coordination, or general Scouting enquiries. We welcome correspondence from all across Kenya.</p>
+        <div class="citems rv d3">
+          <a href="mailto:vigogo@kenyascouts.com" class="ci">
+            <div class="ci-ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div>
+            <div><div class="ci-l">Primary Email</div><div class="ci-v">vigogo@kenyascouts.com</div></div>
+          </a>
+          <a href="mailto:registration@kenyascouts.com" class="ci">
+            <div class="ci-ico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div>
+            <div><div class="ci-l">Registrations</div><div class="ci-v">registration@kenyascouts.com</div></div>
+          </a>
+          <a href="tel:+254732216522" class="ci">
+            <div class="ci-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 11.5a19.79 19.79 0 01-3.07-8.67A2 2 0 013.62 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.69a16 16 0 006 6l.96-.96a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+            <div><div class="ci-l">Phone / WhatsApp</div><div class="ci-v">+254 732 216 522</div></div>
+          </a>
+          <a href="https://www.kenyascouts.org" target="_blank" class="ci">
+            <div class="ci-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+            <div><div class="ci-l">Official Website</div><div class="ci-v">www.kenyascouts.org</div></div>
+          </a>
+        </div>
+        <div class="socials rv d4">
+          <a href="https://www.facebook.com/KSAVIGOGOS" target="_blank" class="soc soc-fb">
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            KSA Vigogos
+          </a>
+          <a href="https://www.kenyascouts.com" target="_blank" class="soc soc-web">kenyascouts.com</a>
+        </div>
+      </div>
+      <div class="rv d2">
+        <div class="cform">
+          <h3>Send a Message</h3>
+          <div class="cfg"><label class="cfl">Full Name</label><input type="text" id="cf-n" class="cfi" placeholder="Your full name"></div>
+          <div class="cfg"><label class="cfl">Email Address</label><input type="email" id="cf-e" class="cfi" placeholder="your@email.com"></div>
+          <div class="cfg">
+            <label class="cfl">County</label>
+            <select id="cf-co" class="cfi"><option value="">Select county…</option></select>
+          </div>
+          <div class="cfg"><label class="cfl">Message</label><textarea id="cf-m" rows="4" class="cfi" placeholder="Your message…" style="resize:none"></textarea></div>
+          <button class="cf-sub" onclick="sendMsg()">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="f-brand">
+    <div class="f-em">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C10.5 4 9 6 9 8c0 1.5.8 2.5 2 3L9 22h6l-2-11c1.2-.5 2-1.5 2-3 0-2-1.5-4-3-6z" fill="#f59e0b"/><path d="M6 9c-2 0-4 1-4 3s2 3 4 3l2-3-2-3zM18 9c2 0 4 1 4 3s-2 3-4 3l-2-3 2-3z" fill="#f59e0b"/></svg>
+    </div>
+    <span class="f-name">Vigogo — The Elders' Council</span>
+  </a>
+  <div class="f-links">
+    <a href="#about">About</a><a href="#register">Register</a>
+    <a href="#members">Members</a><a href="#contact">Contact</a>
+    <a href="https://www.kenyascouts.org" target="_blank">KSA Website</a>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+    <div class="f-flag"><div style="background:#000"></div><div style="background:#dc2626"></div><div style="background:#16a34a"></div><div style="background:#fff"></div></div>
+    <div class="f-copy">© 2025 Kenya Scouts Association. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="ovl" id="ovl"><div class="modal" id="modal"><div id="modal-body"></div></div></div>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────
+const ALL_COUNTIES = [
+  "Mombasa","Kwale","Kilifi","Tana River","Lamu","Taita-Taveta","Garissa",
+  "Wajir","Mandera","Marsabit","Isiolo","Meru","Tharaka-Nithi","Embu","Kitui",
+  "Machakos","Makueni","Nyandarua","Nyeri","Kirinyaga","Muranga","Kiambu",
+  "Turkana","West Pokot","Samburu","Trans Nzoia","Uasin Gishu","Elgeyo-Marakwet",
+  "Nandi","Baringo","Laikipia","Nakuru","Narok","Kajiado","Kericho","Bomet",
+  "Kakamega","Vihiga","Bungoma","Busia","Siaya","Kisumu","Homa Bay","Migori",
+  "Kisii","Nyamira","Nairobi"
+];
+const ROLES = [
+  "County Scout Commissioner","Deputy Scout Commissioner","Scout Elder",
+  "District Scout Leader","County Scout Executive","Vigogo Representative","Patron","Other"
+];
+const SEED = [
+  {id:"23100021",fname:"James",    lname:"Ochieng",  county:"Kisumu",       role:"County Scout Commissioner",  years:"32",phone:"+254720000001",email:"j.ochieng@example.com",   date:"12 March 2025"},
+  {id:"14200043",fname:"Mary",     lname:"Wanjiku",  county:"Nyeri",        role:"Scout Elder",                years:"28",phone:"+254720000002",email:"m.wanjiku@example.com",   date:"15 March 2025"},
+  {id:"30500087",fname:"Samuel",   lname:"Koech",    county:"Nakuru",       role:"Deputy Scout Commissioner",  years:"24",phone:"+254720000003",email:"s.koech@example.com",     date:"18 March 2025"},
+  {id:"55100034",fname:"Grace",    lname:"Auma",     county:"Nairobi",      role:"Vigogo Representative",      years:"35",phone:"+254720000004",email:"g.auma@example.com",      date:"20 March 2025"},
+  {id:"18700065",fname:"Peter",    lname:"Mutua",    county:"Machakos",     role:"County Scout Executive",     years:"19",phone:"+254720000005",email:"p.mutua@example.com",     date:"22 March 2025"},
+  {id:"40600012",fname:"Esther",   lname:"Chebet",   county:"Kericho",      role:"Scout Elder",                years:"27",phone:"+254720000006",email:"e.chebet@example.com",    date:"25 March 2025"},
+  {id:"26300098",fname:"David",    lname:"Ngugi",    county:"Kiambu",       role:"Patron",                     years:"40",phone:"+254720000007",email:"d.ngugi@example.com",     date:"28 March 2025"},
+  {id:"71200033",fname:"Fatuma",   lname:"Hassan",   county:"Mombasa",      role:"County Scout Commissioner",  years:"22",phone:"+254720000008",email:"f.hassan@example.com",    date:"1 April 2025"},
+  {id:"32900045",fname:"John",     lname:"Kamau",    county:"Muranga",      role:"District Scout Leader",      years:"15",phone:"+254720000009",email:"j.kamau@example.com",     date:"3 April 2025"},
+  {id:"48100076",fname:"Agnes",    lname:"Atieno",   county:"Siaya",        role:"Scout Elder",                years:"30",phone:"+254720000010",email:"a.atieno@example.com",    date:"5 April 2025"},
+  {id:"60200054",fname:"Robert",   lname:"Langat",   county:"Bomet",        role:"Deputy Scout Commissioner",  years:"18",phone:"+254720000011",email:"r.langat@example.com",    date:"8 April 2025"},
+  {id:"17500039",fname:"Caroline", lname:"Njeri",    county:"Nyandarua",    role:"Vigogo Representative",      years:"25",phone:"+254720000012",email:"c.njeri@example.com",     date:"10 April 2025"},
+];
+
+let regs = JSON.parse(localStorage.getItem('vg3') || JSON.stringify(SEED));
+let currentCo = '';
+
+// ── POPULATE SELECTS ─────────────────────────────────────────
+function populateSel(){
+  ['cf-co'].forEach(id => {
+    const s = document.getElementById(id);
+    ALL_COUNTIES.forEach(c => { const o = document.createElement('option'); o.value=c; o.textContent=c; s.appendChild(o); });
+  });
+}
+populateSel();
+
+// ── MAP INTERACTION ──────────────────────────────────────────
+document.querySelectorAll('#kenya .c').forEach(el => {
+  const name = el.getAttribute('data-n');
+  el.addEventListener('mouseenter', e => {
+    currentCo = name;
+    const cnt = regs.filter(r => r.county===name).length;
+    const tt = document.getElementById('mtt');
+    tt.textContent = name + ' County' + (cnt ? '  ·  '+cnt+' registered' : '  ·  Click to register');
+    tt.classList.add('on');
+    updateCard(name, cnt);
+  });
+  el.addEventListener('mousemove', e => {
+    const r = document.getElementById('map-panel').getBoundingClientRect();
+    const tt = document.getElementById('mtt');
+    tt.style.left = (e.clientX - r.left + 12) + 'px';
+    tt.style.top  = (e.clientY - r.top  - 36) + 'px';
+  });
+  el.addEventListener('mouseleave', () => document.getElementById('mtt').classList.remove('on'));
+  el.addEventListener('click', () => openM(name));
+});
+
+function updateCard(co, cnt){
+  document.getElementById('card-h').textContent = co + ' County';
+  document.getElementById('card-p').textContent = cnt
+    ? cnt+' elder'+(cnt>1?'s':'')+' registered. You may add another representative.'
+    : 'No registrations yet in '+co+'. Be the first elder to represent this county.';
+  const btn = document.getElementById('card-btn');
+  btn.style.display = 'block';
+  btn.onclick = () => openM(co);
+}
+
+// ── MODAL ─────────────────────────────────────────────────────
+function openM(co){
+  if(!co) return;
+  currentCo = co;
+  document.getElementById('modal-body').innerHTML = buildForm(co);
+  document.getElementById('ovl').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeM(){
+  document.getElementById('ovl').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('ovl').addEventListener('click', e => { if(e.target===document.getElementById('ovl')) closeM(); });
+
+function buildForm(co){
+  const cOpts = ALL_COUNTIES.map(c=>`<option${c===co?' selected':''}>${c}</option>`).join('');
+  const rOpts = ROLES.map(r=>`<option>${r}</option>`).join('');
+  return `
+  <div class="mh">
+    <button class="m-close" onclick="closeM()">&#x2715;</button>
+    <div class="m-tag">${co} County</div>
+    <h2>Vigogo Registration</h2>
+    <p>Complete the form to register as a Scout Elder for ${co} County.</p>
+  </div>
+  <div class="mb">
+    <div class="id-note"><strong>National ID is your unique key.</strong> The system uses it to prevent duplicate registrations — each National ID may only register once across the entire platform.</div>
+    <div class="frow">
+      <div class="fg h"><label class="fl">First Name <span class="r">*</span></label><input type="text" id="fn" placeholder="First name"><div class="em" id="efn">Required</div></div>
+      <div class="fg h"><label class="fl">Last Name <span class="r">*</span></label><input type="text" id="ln" placeholder="Last name"><div class="em" id="eln">Required</div></div>
+    </div>
+    <div class="fg"><label class="fl">National ID Number <span class="r">*</span></label><input type="text" id="nid" placeholder="e.g. 12345678" maxlength="8" inputmode="numeric"><div class="em" id="enid">Enter a valid 6–8 digit National ID</div></div>
+    <div class="frow">
+      <div class="fg h"><label class="fl">Phone <span class="r">*</span></label><input type="tel" id="ph" placeholder="+254 7XX XXX XXX"><div class="em" id="eph">Enter a valid number</div></div>
+      <div class="fg h"><label class="fl">Email</label><input type="email" id="em" placeholder="you@example.com"></div>
+    </div>
+    <div class="frow">
+      <div class="fg h"><label class="fl">County <span class="r">*</span></label><select id="co">${cOpts}</select></div>
+      <div class="fg h"><label class="fl">Role / Title <span class="r">*</span></label><select id="ro">${rOpts}</select></div>
+    </div>
+    <div class="fg"><label class="fl">Years in Scouting</label><input type="number" id="yr" placeholder="e.g. 20" min="1" max="70"></div>
+    <hr class="mdiv">
+    <button class="sub-btn" id="sbtn" onclick="doSubmit()">
+      <span id="stxt">Complete Registration</span>
+      <div class="spin" id="sspin"></div>
+    </button>
+  </div>`;
+}
+
+function doSubmit(){
+  const fn=gv('fn'),ln=gv('ln'),nid=gv('nid'),ph=gv('ph'),
+        em=gv('em'),co=gv('co'),ro=gv('ro'),yr=gv('yr');
+  let ok=true;
+  if(!fn){setE('efn','fn','Required');ok=false}else clE('efn','fn');
+  if(!ln){setE('eln','ln','Required');ok=false}else clE('eln','ln');
+  if(!/^\d{6,8}$/.test(nid)){setE('enid','nid','Enter a valid 6–8 digit National ID');ok=false}else clE('enid','nid');
+  if(ph.length<9){setE('eph','ph','Enter a valid phone number');ok=false}else clE('eph','ph');
+  if(!ok) return;
+  const dup = regs.find(r=>r.id===nid);
+  if(dup){setE('enid','nid',`ID already registered — ${dup.fname} ${dup.lname}, ${dup.county}`);return}
+  const btn=document.getElementById('sbtn');
+  btn.disabled=true;
+  document.getElementById('stxt').style.display='none';
+  document.getElementById('sspin').style.display='block';
+  setTimeout(()=>{
+    const rec={id:nid,fname:fn,lname:ln,phone:ph,email:em,county:co,role:ro,
+      years:yr||'—',date:new Date().toLocaleDateString('en-KE',{day:'numeric',month:'long',year:'numeric'})};
+    regs.push(rec);
+    localStorage.setItem('vg3',JSON.stringify(regs));
+    markDone(co); renderMembers(); updateStats();
+    showSuccess(rec);
+    toast(fn+' '+ln+' successfully registered for '+co+' County.');
+  },1100);
+}
+
+function showSuccess(r){
+  const ref='VIG-'+String(Date.now()).slice(-6);
+  document.getElementById('modal-body').innerHTML=`
+  <div class="sw">
+    <div class="sc"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h3>Registration Complete</h3>
+    <p>Welcome to Vigogo, <strong>${r.fname} ${r.lname}</strong>. You are now a registered Elder for <strong>${r.county} County</strong>.</p>
+    <div class="ref"><span>Reference Number</span>${ref}</div>
+    <p style="font-size:.8rem;color:var(--I3)">Please retain this reference. A confirmation will be sent to ${r.email||r.phone}.</p>
+    <button class="sub-btn" onclick="closeM()" style="margin-top:24px">Done</button>
+  </div>`;
+}
+
+// helpers
+const gv=id=>document.getElementById(id)?.value.trim()||'';
+function setE(eid,iid,msg){const e=document.getElementById(eid);e.textContent=msg;e.classList.add('on');document.getElementById(iid)?.classList.add('er')}
+function clE(eid,iid){document.getElementById(eid).classList.remove('on');document.getElementById(iid)?.classList.remove('er')}
+
+function markDone(co){
+  document.querySelectorAll('#kenya .c').forEach(el=>{if(el.getAttribute('data-n')===co)el.classList.add('done')});
+}
+function updateStats(){
+  const cs=[...new Set(regs.map(r=>r.county))];
+  const ne=regs.length,nc=cs.length;
+  setN('kpi-e',ne);setN('kpi-c',nc);
+  setN('sv-e',ne);setN('sv-c',nc);setN('sv-r',47-nc);
+  document.getElementById('mc').textContent=ne;
+  document.getElementById('prog-txt').textContent=nc+' / 47 counties';
+  document.getElementById('prog-bar').style.width=(nc/47*100).toFixed(1)+'%';
+}
+function setN(id,v){
+  const el=document.getElementById(id);if(!el)return;
+  let cur=parseInt(el.textContent)||0;
+  if(cur===v)return;
+  const step=Math.sign(v-cur);
+  const t=setInterval(()=>{cur+=step;el.textContent=cur;if(cur===v)clearInterval(t)},40);
+}
+function renderMembers(){
+  const g=document.getElementById('mgrid');
+  if(!regs.length){
+    g.innerHTML=`<div class="empty"><div class="empty-ring"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a8 8 0 00-16 0v2"/></svg></div><h4>No elders registered yet</h4><p>Be the first to register your county on the map above.</p></div>`;
+    return;
+  }
+  g.innerHTML=regs.map(r=>`
+    <div class="mc">
+      <div class="mc-av">${r.fname[0]}${r.lname[0]}</div>
+      <div class="mc-name">${r.fname} ${r.lname}</div>
+      <div class="mc-county">${r.county} County</div>
+      <div class="mc-role">${r.role}</div>
+      <div class="mc-date">Registered ${r.date}</div>
+    </div>`).join('');
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),4000);
+}
+function sendMsg(){
+  const n=document.getElementById('cf-n').value.trim();
+  const m=document.getElementById('cf-m').value.trim();
+  if(!n||!m){toast('Please fill in your name and message.');return}
+  toast('Message sent. We will be in touch shortly, '+n+'.');
+  ['cf-n','cf-e','cf-co','cf-m'].forEach(id=>document.getElementById(id).value='');
+}
+
+// ── NAV SCROLL ───────────────────────────────────────────────
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>40));
+
+// ── REVEAL ON SCROLL ─────────────────────────────────────────
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+
+// ── SMOOTH NAV ───────────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+regs.forEach(r=>markDone(r.county));
+renderMembers();
+updateStats();
+</script>
+</body>
+</html>
