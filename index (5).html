@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vigogo — The Elders' Council | Vigogo Scouts of Kenya</title>
+
+<!-- Favicon: Scout fleur-de-lis on green -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a2e14'/%3E%3Cpath d='M32 8C28 13 25 18 25 22c0 4 2 6.5 5.5 7.8L27 56h10l-3.5-26.2C37 28.5 39 26 39 22c0-4-3-9-7-14z' fill='%23f59e0b'/%3E%3Cpath d='M18 24c-5 0-9 2.5-9 7s4 7 9 7l5-7-5-7zM46 24c5 0 9 2.5 9 7s-4 7-9 7l-5-7 5-7z' fill='%23f59e0b'/%3E%3Ccircle cx='32' cy='53' r='3' fill='%23f59e0b'/%3E%3Cline x1='26' y1='52' x2='38' y2='52' stroke='%23f59e0b' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a2e14'/%3E%3Cpath d='M32 8C28 13 25 18 25 22c0 4 2 6.5 5.5 7.8L27 56h10l-3.5-26.2C37 28.5 39 26 39 22c0-4-3-9-7-14z' fill='%23f59e0b'/%3E%3Cpath d='M18 24c-5 0-9 2.5-9 7s4 7 9 7l5-7-5-7zM46 24c5 0 9 2.5 9 7s-4 7-9 7l-5-7 5-7z' fill='%23f59e0b'/%3E%3Ccircle cx='32' cy='53' r='3' fill='%23f59e0b'/%3E%3Cline x1='26' y1='52' x2='38' y2='52' stroke='%23f59e0b' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+
+<!-- Leaflet real map -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --g1:#0a2e14;--g2:#14532d;--g3:#166534;--g4:#16a34a;--g5:#4ade80;
+  --a1:#b45309;--a2:#d97706;--a3:#f59e0b;--a4:#fbbf24;
+  --r1:#991b1b;--r2:#dc2626;
+  --cr:#fefce8;--w:#fff;--s:#f8faf8;
+  --i0:#0f172a;--i1:#1e293b;--i2:#475569;--i3:#94a3b8;--i4:#e2e8f0;
+  --sh:0 4px 24px rgba(10,46,20,.10);
+  --shL:0 16px 64px rgba(10,46,20,.16);
+  --r:14px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--s);color:var(--i0);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--s)}::-webkit-scrollbar-thumb{background:var(--g3);border-radius:3px}
+
+/* ── NAV ───────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:800;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--i4);transition:box-shadow .3s}
+.nav.sc{box-shadow:var(--sh)}
+.nb{display:flex;align-items:center;gap:12px;text-decoration:none}
+.ne{width:42px;height:42px;background:var(--g1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 10px rgba(10,46,20,.25)}
+.ne svg{width:22px;height:22px}
+.nw{display:flex;flex-direction:column;line-height:1.1}
+.nn{font-family:'Playfair Display',serif;font-size:1.22rem;font-weight:700;color:var(--g1);letter-spacing:.02em}
+.ns{font-size:.59rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--i3);margin-top:2px}
+.nm{display:flex;gap:30px;list-style:none}
+.nm a{text-decoration:none;color:var(--i2);font-size:.78rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;transition:color .2s;position:relative}
+.nm a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--g4);transform:scaleX(0);transition:transform .2s;border-radius:1px}
+.nm a:hover{color:var(--g1)}.nm a:hover::after{transform:scaleX(1)}
+.ncta{background:var(--g1);color:#fff;padding:10px 26px;border-radius:50px;font-size:.78rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-decoration:none;transition:background .2s,transform .2s;box-shadow:0 3px 14px rgba(10,46,20,.22)}
+.ncta:hover{background:var(--g2);transform:translateY(-1px)}
+
+/* ── HERO ──────────────────────────── */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;padding-top:70px;overflow:hidden;width:100%;max-width:100vw}
+.hl{display:flex;flex-direction:column;justify-content:center;padding:80px 64px 80px 72px;background:var(--w);position:relative;overflow:hidden;min-width:0}
+.hl::before{content:'';position:absolute;top:-80px;right:-80px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(74,222,128,.07),transparent 70%);pointer-events:none}
+.pill{display:inline-flex;align-items:center;gap:9px;background:var(--cr);border:1px solid rgba(146,64,14,.2);border-radius:50px;padding:6px 16px;margin-bottom:28px;align-self:flex-start}
+.pd{width:7px;height:7px;background:var(--a2);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+.pill span{font-size:.67rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--a1)}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.hh{font-family:'Playfair Display',serif;font-size:clamp(2.7rem,4.2vw,4.3rem);font-weight:800;line-height:1.06;color:var(--g1);margin-bottom:22px}
+.hh em{font-style:italic;color:var(--a2)}
+.hp{font-size:1rem;line-height:1.85;color:var(--i2);max-width:455px;margin-bottom:36px;font-weight:300}
+.hbtns{display:flex;gap:14px;flex-wrap:wrap}
+.bP{background:var(--g1);color:#fff;padding:14px 32px;border-radius:50px;font-size:.84rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 18px rgba(10,46,20,.22);font-family:'Inter',sans-serif}
+.bP:hover{background:var(--g2);transform:translateY(-2px);box-shadow:0 8px 26px rgba(10,46,20,.3)}
+.bS{background:transparent;color:var(--g1);padding:14px 32px;border-radius:50px;font-size:.84rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;border:1.5px solid var(--g1);cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.bS:hover{background:rgba(10,46,20,.05);transform:translateY(-2px)}
+.hkpi{display:flex;gap:36px;margin-top:48px;padding-top:34px;border-top:1px solid var(--i4)}
+.kn{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--g1);line-height:1}
+.kl{font-size:.67rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--i3);margin-top:4px}
+.hr{background:var(--g1);position:relative;overflow:hidden;display:flex;flex-direction:column}
+.hi{width:100%;height:100%;object-fit:cover;opacity:.42;display:block;flex:1}
+.hg{position:absolute;inset:0;background:linear-gradient(160deg,rgba(10,46,20,.52) 0%,rgba(180,83,9,.15) 100%)}
+.hflag{position:absolute;top:0;left:0;right:0;height:5px;display:flex}
+.hf div{flex:1}
+.hcard{position:absolute;bottom:44px;left:44px;right:44px;background:rgba(255,255,255,.09);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:26px 30px}
+.hcy{font-family:'Playfair Display',serif;font-size:4rem;font-weight:800;color:rgba(251,191,36,.18);position:absolute;top:8px;right:22px;line-height:1}
+.hct{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;color:#fff;margin-bottom:6px}
+.hcb{font-size:.82rem;color:rgba(255,255,255,.58);line-height:1.65;max-width:80%}
+
+/* ── SECTIONS ──────────────────────── */
+.sec{padding:96px 72px;width:100%;box-sizing:border-box}.sw{max-width:1160px;margin:0 auto;width:100%}
+.lbl{display:inline-block;font-size:.64rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--a2);margin-bottom:12px}
+.sh2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.75rem);font-weight:700;color:var(--g1);line-height:1.18;margin-bottom:16px}
+.sb{font-size:.97rem;line-height:1.85;color:var(--i2);font-weight:300;max-width:540px}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ── ABOUT ─────────────────────────── */
+.about{background:var(--w)}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:88px;align-items:center;min-width:0}
+.is{position:relative;height:540px}
+.im{position:absolute;top:0;left:0;width:73%;height:82%;object-fit:cover;border-radius:18px;box-shadow:var(--shL)}
+.ia{position:absolute;bottom:0;right:0;width:54%;height:58%;object-fit:cover;border-radius:14px;box-shadow:var(--sh);border:5px solid #fff}
+.ib{position:absolute;top:56%;left:66%;background:var(--a2);color:#fff;border-radius:50%;width:82px;height:82px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:4px solid #fff;box-shadow:var(--sh)}
+.ib strong{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;line-height:1}
+.ib span{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;margin-top:2px;opacity:.85}
+.pills{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
+.pl{background:var(--s);border-radius:var(--r);padding:20px 22px;border-left:3px solid var(--a3);transition:box-shadow .2s,transform .2s}
+.pl:hover{box-shadow:var(--sh);transform:translateY(-3px)}
+.plt{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--g1);margin-bottom:4px}
+.plb{font-size:.78rem;color:var(--i3);line-height:1.6}
+
+/* ── MAP SECTION ───────────────────── */
+.map-sec{
+  background:var(--g1);
+  position:relative;overflow:hidden;
+}
+/* subtle Kenya silhouette as background texture */
+.map-sec::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 30% 50%,rgba(22,101,52,.6),transparent),
+             radial-gradient(ellipse 50% 60% at 80% 30%,rgba(180,83,9,.12),transparent);
+  pointer-events:none;
+}
+.map-head{text-align:center;margin-bottom:40px;position:relative}
+.map-head .lbl{color:rgba(251,191,36,.65)}
+.map-head .sh2{color:#fff}
+.map-head .sb{color:rgba(255,255,255,.6);margin:0 auto;text-align:center}
+
+.map-container{
+  background:var(--w);border-radius:22px;
+  overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.4);
+  border:1px solid rgba(255,255,255,.1);
+  position:relative;max-width:100%;
+}
+.map-topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;background:#fff;border-bottom:1px solid var(--i4);
+  flex-wrap:wrap;gap:10px;
+}
+.map-topbar-l{display:flex;align-items:center;gap:10px}
+.live-dot{width:8px;height:8px;background:var(--g4);border-radius:50%;animation:pulse 1.8s ease-in-out infinite;display:inline-block}
+.map-topbar-txt{font-size:.78rem;color:var(--i3);font-weight:500}
+.map-legend{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:5px;font-size:.7rem;color:var(--i3)}
+.leg-d{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.map-zoom-hint{font-size:.7rem;color:var(--i3);display:flex;align-items:center;gap:5px}
+.map-zoom-hint svg{width:14px;height:14px;stroke:var(--i3);fill:none;stroke-width:2}
+
+#map{height:580px;width:100%;z-index:1}
+
+/* ── MAP SCROLL TRAP FIX ─────────────
+   On mobile: show a tap-to-activate overlay so the user can
+   still scroll the page. Tapping dismisses it and enables map touch.
+   On desktop: Leaflet's scrollWheelZoom is disabled by default;
+   user must click map first to activate scroll-zoom.
+─────────────────────────────────────── */
+.map-touch-guard{
+  position:absolute;
+  inset:0;
+  z-index:500;
+  display:none; /* hidden on desktop */
+  align-items:center;
+  justify-content:center;
+  background:rgba(10,46,20,.55);
+  backdrop-filter:blur(3px);
+  cursor:pointer;
+  transition:opacity .25s;
+  border-radius:0 0 22px 22px;
+}
+.map-touch-guard.active{display:flex}
+.map-touch-guard-inner{
+  text-align:center;
+  color:#fff;
+  pointer-events:none;
+  padding:20px;
+}
+.map-touch-guard-icon{
+  width:60px;height:60px;
+  background:rgba(255,255,255,.15);
+  border:2px solid rgba(255,255,255,.4);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 12px;
+}
+.map-touch-guard-icon svg{width:28px;height:28px;stroke:#fff;fill:none;stroke-width:2}
+.map-touch-guard-txt{font-size:.85rem;font-weight:600;letter-spacing:.04em;line-height:1.5}
+.map-touch-guard-sub{font-size:.72rem;opacity:.7;margin-top:4px}
+
+/* Desktop: show a subtle "click to zoom" hint on the map */
+.map-scroll-note{
+  position:absolute;
+  bottom:54px;left:50%;transform:translateX(-50%);
+  z-index:450;
+  background:rgba(10,46,20,.8);
+  color:#fff;
+  font-size:.72rem;font-weight:600;
+  padding:6px 14px;
+  border-radius:50px;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity .4s;
+  white-space:nowrap;
+  letter-spacing:.04em;
+}
+.map-scroll-note.show{opacity:1}
+
+/* mobile touch guard always visible — overridden in comprehensive block above */
+
+.map-bottombar{
+  padding:12px 20px;background:#fafafa;border-top:1px solid var(--i4);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+}
+.prog-wrap{flex:1;max-width:400px}
+.prog-lbl{display:flex;justify-content:space-between;font-size:.72rem;color:var(--i3);margin-bottom:6px}
+.prog-lbl strong{color:var(--g2);font-size:.84rem}
+.prog-bg{height:6px;background:var(--i4);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--g3),var(--a3));border-radius:3px;transition:width 1s ease}
+.selected-county-badge{
+  display:flex;align-items:center;gap:8px;
+  background:var(--cr);border:1px solid rgba(146,64,14,.25);
+  border-radius:50px;padding:6px 14px;font-size:.75rem;font-weight:600;color:var(--a1);
+}
+.selected-county-badge.hidden{display:none}
+
+/* ── MODAL ─────────────────────────── */
+.ovl{position:fixed;inset:0;z-index:2000;background:rgba(5,20,10,.78);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s}
+.ovl.open{opacity:1;pointer-events:all}
+.modal{background:var(--w);border-radius:24px;max-width:600px;width:100%;box-shadow:var(--shL);transform:translateY(22px) scale(.97);transition:transform .36s cubic-bezier(.34,1.35,.64,1);max-height:92vh;overflow-y:auto;border-top:4px solid var(--a3)}
+.ovl.open .modal{transform:translateY(0) scale(1)}
+.mh{padding:30px 36px 22px;border-bottom:1px solid var(--i4);position:relative}
+.mtag{display:inline-flex;align-items:center;gap:8px;background:var(--cr);color:var(--a1);font-size:.64rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:5px 14px;border-radius:50px;border:1px solid rgba(146,64,14,.2);margin-bottom:10px}
+.mh h2{font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:700;color:var(--g1);line-height:1.2}
+.mh p{font-size:.82rem;color:var(--i2);margin-top:6px;font-weight:300}
+.mc2{position:absolute;top:22px;right:24px;width:36px;height:36px;background:var(--s);border:none;border-radius:50%;cursor:pointer;font-size:.95rem;color:var(--i2);display:flex;align-items:center;justify-content:center;transition:background .2s}
+.mc2:hover{background:var(--i4)}
+.mb2{padding:26px 36px 34px}
+.id-note{background:var(--cr);border-left:3px solid var(--a3);border-radius:0 10px 10px 0;padding:12px 16px;font-size:.8rem;color:#92400e;line-height:1.6;margin-bottom:22px}
+.id-note strong{font-weight:700}
+/* scout facts strip */
+.scout-strip{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+.scout-fact{flex:1;min-width:120px;background:var(--s);border-radius:10px;padding:12px 14px;border:1px solid var(--i4)}
+.sf-val{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--g1);line-height:1}
+.sf-lbl{font-size:.65rem;color:var(--i3);margin-top:3px;text-transform:uppercase;letter-spacing:.1em}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.fg{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.fg.h{margin-bottom:0}
+.fl{font-size:.69rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--i1)}
+.fl .r{color:var(--r2);margin-left:2px}
+input[type=text],input[type=email],input[type=tel],input[type=number],select,textarea{border:1.5px solid var(--i4);border-radius:10px;padding:11px 15px;font-size:.91rem;font-family:'Inter',sans-serif;color:var(--i0);background:#fafafa;outline:none;width:100%;transition:border-color .2s,box-shadow .2s,background .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--g3);background:var(--w);box-shadow:0 0 0 3px rgba(22,101,52,.1)}
+input.er,select.er{border-color:var(--r2)}
+.em{font-size:.71rem;color:var(--r2);display:none;margin-top:-4px}
+.em.on{display:block}
+.mdiv{border:none;border-top:1px solid var(--i4);margin:18px 0}
+.sbtn{width:100%;padding:14px;background:var(--g1);color:#fff;border:none;border-radius:12px;font-family:'Inter',sans-serif;font-size:.87rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 4px 18px rgba(10,46,20,.2);display:flex;align-items:center;justify-content:center;gap:10px}
+.sbtn:hover{background:var(--g2);transform:translateY(-1px)}
+.sbtn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.spin{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:rot .7s linear infinite;display:none}
+@keyframes rot{to{transform:rotate(360deg)}}
+/* success */
+.sw2{padding:48px 36px;text-align:center}
+.sc2{width:72px;height:72px;background:linear-gradient(135deg,var(--g3),var(--g1));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 28px rgba(10,46,20,.25)}
+.sc2 svg{width:32px;height:32px;stroke:#fff;fill:none;stroke-width:2.5}
+.sw2 h3{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;color:var(--g1);margin-bottom:12px}
+.sw2 p{font-size:.87rem;color:var(--i2);line-height:1.75}
+.ref{background:var(--s);border:1px dashed var(--a3);border-radius:10px;padding:14px 20px;font-family:'Playfair Display',serif;font-size:1.12rem;font-weight:700;color:var(--g1);letter-spacing:.08em;margin:18px 0}
+.ref span{font-size:.65rem;font-family:'Inter',sans-serif;font-weight:400;color:var(--i3);display:block;margin-bottom:4px;letter-spacing:.12em;text-transform:uppercase}
+
+/* ── MEMBERS ────────────────────────── */
+.mbsec{background:var(--w)}
+.mhdr{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:42px}
+.mcbdg{background:var(--s);border:1px solid var(--i4);border-radius:50px;padding:8px 18px;font-size:.77rem;font-weight:600;color:var(--i2)}
+.mcbdg strong{color:var(--g1)}
+.mgrd{display:grid;grid-template-columns:repeat(auto-fill,minmax(224px,1fr));gap:16px}
+.mc3{background:var(--s);border-radius:16px;padding:22px;border:1px solid var(--i4);transition:box-shadow .22s,transform .22s;position:relative;overflow:hidden}
+.mc3::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--g3),var(--a3))}
+.mc3:hover{box-shadow:var(--sh);transform:translateY(-3px)}
+.mav{width:46px;height:46px;background:var(--g1);border-radius:50%;color:#fff;font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.mn{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--g1);margin-bottom:4px}
+.mco{font-size:.74rem;color:var(--g3);font-weight:600;margin-bottom:3px}
+.mrl{font-size:.72rem;color:var(--i3)}
+.mdt{font-size:.67rem;color:var(--i4);margin-top:10px;font-style:italic}
+.empty{grid-column:1/-1;padding:60px 20px;text-align:center}
+.er2{width:76px;height:76px;background:var(--s);border:2px dashed var(--i4);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.er2 svg{width:30px;height:30px;stroke:var(--i4);fill:none;stroke-width:1.5}
+.empty h4{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--i2);margin-bottom:6px}
+.empty p{font-size:.82rem;color:var(--i3);max-width:280px;margin:0 auto;line-height:1.65}
+
+/* ── CONTACT ─────────────────────────── */
+.ctsec{background:var(--g1);position:relative;overflow:hidden}
+.ctsec::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 75% 50%,rgba(180,83,9,.13),transparent);pointer-events:none}
+.ctsec::after{content:'VIGOGO';position:absolute;right:-80px;top:50%;transform:translateY(-50%);font-family:'Playfair Display',serif;font-size:11rem;font-weight:800;color:rgba(255,255,255,.022);pointer-events:none;line-height:1}
+.cgrd{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;position:relative;min-width:0}
+.clbl{color:rgba(251,191,36,.6)}
+.csh{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.5rem);font-weight:700;color:#fff;line-height:1.18;margin-bottom:14px}
+.cdsc{font-size:.94rem;line-height:1.85;color:rgba(255,255,255,.52);font-weight:300;margin-bottom:30px}
+.citm{display:flex;flex-direction:column;gap:11px}
+.ci{display:flex;align-items:center;gap:15px;text-decoration:none;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:13px 17px;transition:background .2s}
+.ci:hover{background:rgba(255,255,255,.1)}
+.cico{width:40px;height:40px;background:rgba(180,83,9,.18);border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.cico svg{width:17px;height:17px;stroke:var(--a4);fill:none;stroke-width:1.8}
+.cil{font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.civ{font-size:.87rem;color:rgba(255,255,255,.88);font-weight:500;margin-top:2px}
+.socs{display:flex;gap:11px;margin-top:26px;flex-wrap:wrap}
+.soc{display:inline-flex;align-items:center;gap:7px;padding:9px 19px;border-radius:50px;font-size:.74rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;text-decoration:none;border:1.5px solid;transition:all .2s}
+.sf{color:#7eb0ff;border-color:rgba(126,176,255,.35)}.sf:hover{background:rgba(126,176,255,.1)}
+.sw3{color:var(--a4);border-color:rgba(251,191,36,.35)}.sw3:hover{background:rgba(251,191,36,.1)}
+.cfrm{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:34px}
+.cfrm h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:20px}
+.cfl{font-size:.64rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.38);display:block;margin-bottom:6px}
+.cfg{margin-bottom:14px}
+.cfi{background:rgba(255,255,255,.08)!important;border-color:rgba(255,255,255,.13)!important;color:#fff!important}
+.cfi::placeholder{color:rgba(255,255,255,.25)}
+.cfi:focus{border-color:rgba(251,191,36,.5)!important;box-shadow:0 0 0 3px rgba(251,191,36,.09)!important}
+.cfsub{width:100%;padding:13px;background:var(--a2);color:var(--g1);border:none;border-radius:10px;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s,transform .2s;margin-top:4px}
+.cfsub:hover{background:var(--a3);transform:translateY(-1px)}
+
+/* ── FOOTER ─────────────────────────── */
+footer{background:#060d09;padding:36px 72px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;width:100%;box-sizing:border-box}
+.fb{display:flex;align-items:center;gap:12px;text-decoration:none}
+.fem{width:34px;height:34px;background:var(--g2);border-radius:50%;display:flex;align-items:center;justify-content:center}
+.fem svg{width:16px;height:16px}
+.fn2{font-family:'Playfair Display',serif;font-size:.93rem;font-weight:700;color:rgba(255,255,255,.38)}
+.fls{display:flex;gap:20px}
+.fls a{font-size:.7rem;color:rgba(255,255,255,.26);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s}
+.fls a:hover{color:var(--a3)}
+.fcp{font-size:.7rem;color:rgba(255,255,255,.16)}
+.fflag{display:flex;height:3px;width:56px;border-radius:2px;overflow:hidden}
+.fflag div{flex:1}
+
+/* ── TOAST ─────────────────────────── */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--g1);color:#fff;padding:13px 20px;border-radius:12px;font-size:.83rem;font-weight:500;box-shadow:var(--shL);z-index:9999;transform:translateY(16px);opacity:0;transition:all .35s cubic-bezier(.34,1.5,.64,1);border-left:3px solid var(--a3);max-width:310px;line-height:1.5}
+.toast.on{transform:translateY(0);opacity:1}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE — TABLET (≤960px) + MOBILE (≤600px)
+   Root cause of horizontal scroll:
+   • .hero grid 1fr 1fr with large padding
+   • .hl padding:80px 64px 80px 72px
+   • .sec padding:96px 72px
+   • .ag, .cgrd 2-col grids
+   • .is position:absolute children overflow
+   • .frow 2-col grid in modal on tiny screens
+   • footer padding:36px 72px
+   • .hh large clamp font
+══════════════════════════════════════════════ */
+
+/* ── Tablet + Mobile (≤960px) ── */
+@media(max-width:960px){
+
+  /* Prevent ANY element from causing horizontal scroll */
+  html,body{overflow-x:hidden;max-width:100vw}
+  *{max-width:100%}
+
+  /* Nav */
+  .nav{padding:0 18px;height:62px}
+  .nm,.ncta{display:none}
+
+  /* Hero — single column, no side-by-side */
+  .hero{grid-template-columns:1fr;min-height:auto;width:100%}
+  .hl{padding:52px 20px 44px;width:100%}
+  .hl::before{display:none}
+  .hh{font-size:clamp(2rem,8vw,3rem)}
+  .hp{max-width:100%;font-size:.95rem}
+  .hbtns{flex-direction:column;width:100%}
+  .bP,.bS{width:100%;text-align:center;justify-content:center}
+  .hkpi{gap:20px;flex-wrap:wrap;padding-top:24px;margin-top:32px}
+  .kn{font-size:2rem}
+  .hr{height:240px;width:100%}
+  .hcard{left:18px;right:18px;bottom:18px;padding:16px 18px}
+  .hcy{font-size:2.5rem}
+  .hct{font-size:1.1rem}
+  .hcb{font-size:.78rem;max-width:100%}
+  .hflag{height:4px}
+
+  /* Sections */
+  .sec{padding:56px 20px;width:100%}
+  .sw{max-width:100%;padding:0;width:100%}
+
+  /* About */
+  .ag{grid-template-columns:1fr;gap:32px;width:100%}
+  .is{height:260px;width:100%}
+  .im{width:70%;height:80%}
+  .ia{width:52%;height:56%}
+  .ib{width:68px;height:68px;left:64%;top:58%}
+  .ib strong{font-size:1.1rem}
+  .pills{grid-template-columns:1fr;gap:10px}
+
+  /* Map section */
+  .map-head .sb{max-width:100%;text-align:left}
+  .map-container{border-radius:14px}
+  .map-topbar{flex-direction:column;align-items:flex-start;gap:8px;padding:12px 14px}
+  .map-legend{flex-wrap:wrap;gap:10px}
+  #map{height:380px;width:100%}
+  .map-bottombar{flex-direction:column;align-items:flex-start;gap:10px;padding:12px 14px}
+  .prog-wrap{max-width:100%;width:100%}
+  .selected-county-badge{font-size:.7rem}
+  .map-touch-guard{display:flex;border-radius:0 0 14px 14px}
+
+  /* Members */
+  .mhdr{flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:28px}
+  .mgrd{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .mc3{padding:16px}
+
+  /* Contact */
+  .ctsec::after{display:none}
+  .cgrd{grid-template-columns:1fr;gap:32px;width:100%}
+  .cfrm{padding:22px 18px}
+
+  /* Footer */
+  footer{padding:28px 20px;flex-direction:column;align-items:flex-start;gap:16px;width:100%}
+  .fls{flex-wrap:wrap;gap:12px}
+
+  /* Modal */
+  .modal{border-radius:18px;max-height:96vh}
+  .mh{padding:22px 20px 18px}
+  .mb2{padding:18px 20px 24px}
+  .frow{grid-template-columns:1fr;gap:0}
+  .fg.h{margin-bottom:14px}
+  .scout-strip{flex-direction:column;gap:8px}
+  .scout-fact{min-width:auto}
+  .sw2{padding:36px 20px}
+}
+
+/* ── Mobile (≤480px) ── */
+@media(max-width:480px){
+  .nav{padding:0 14px;height:58px}
+  .nn{font-size:1.05rem}
+  .ns{display:none}
+  .ne{width:36px;height:36px}
+
+  .sec{padding:44px 16px}
+  .hl{padding:44px 16px 36px}
+  .hh{font-size:clamp(1.8rem,9vw,2.6rem)}
+
+  .hkpi{gap:16px}
+  .kn{font-size:1.7rem}
+  .kl{font-size:.6rem}
+
+  .is{height:220px}
+  .pills{gap:8px}
+  .pl{padding:14px 16px}
+
+  #map{height:340px}
+
+  .mgrd{grid-template-columns:1fr 1fr;gap:10px}
+  .mc3{padding:14px}
+  .mav{width:38px;height:38px;font-size:.9rem}
+
+  .ci{padding:10px 12px;gap:10px}
+  .cico{width:34px;height:34px;border-radius:8px}
+
+  .toast{left:16px;right:16px;bottom:20px;max-width:none}
+
+  footer{padding:22px 16px}
+  .fls{gap:10px}
+  .fls a{font-size:.66rem}
+}
+
+/* Mobile — up to 600px — primary fix for left-right scroll */
+@media(max-width:600px){
+  /* Root prevents any horizontal overflow */
+  html,body{overflow-x:hidden;width:100%}
+
+  /* Nav */
+  .nav{padding:0 16px;height:60px}
+  .nm,.ncta{display:none}
+  .nn{font-size:1.05rem}
+  .ns{display:none}
+  .ne{width:36px;height:36px}
+  .ne svg{width:18px;height:18px}
+
+  /* Hero */
+  .hero{grid-template-columns:1fr;min-height:auto;padding-top:60px}
+  .hl{padding:40px 20px 36px}
+  .hh{font-size:2.4rem;margin-bottom:16px}
+  .hp{font-size:.92rem;margin-bottom:28px;max-width:100%}
+  .hbtns{gap:10px}
+  .bP,.bS{padding:12px 22px;font-size:.78rem}
+  .hkpi{gap:20px;margin-top:32px;padding-top:24px}
+  .kn{font-size:2rem}
+  .kl{font-size:.6rem}
+  .pill{padding:5px 13px;margin-bottom:20px}
+  .pill span{font-size:.6rem}
+  .hr{height:220px}
+  .hcard{bottom:20px;left:20px;right:20px;padding:18px 20px}
+  .hct{font-size:1.1rem}
+  .hcb{font-size:.76rem}
+  .hcy{font-size:2.8rem}
+
+  /* Sections */
+  .sec{padding:52px 20px}
+  .sw{max-width:100%;padding:0}
+  .sh2{font-size:1.65rem;margin-bottom:12px}
+  .sb{font-size:.9rem;max-width:100%}
+
+  /* About */
+  .ag{grid-template-columns:1fr;gap:32px}
+  .is{height:220px}
+  .im{width:78%;height:80%}
+  .ia{width:50%;height:55%}
+  .ib{width:64px;height:64px;top:54%;left:62%}
+  .ib strong{font-size:1.1rem}
+  .ib span{font-size:.45rem}
+  .pills{grid-template-columns:1fr;gap:10px;margin-top:24px}
+  .pl{padding:16px 18px}
+
+  /* Map section */
+  .map-sec.sec{padding:52px 0}  /* full-width on mobile */
+  .map-sec .sw{padding:0 20px}
+  .map-head{margin-bottom:28px;text-align:left}
+  .map-head .sb{text-align:left}
+  .map-container{border-radius:14px;margin:0 20px}
+  .map-topbar{padding:10px 14px;gap:6px}
+  .map-topbar-txt{font-size:.7rem}
+  .map-legend{gap:10px}
+  .leg{font-size:.64rem}
+  .map-zoom-hint{display:none}
+  #map{height:360px}
+  .map-bottombar{padding:10px 14px;flex-direction:column;align-items:flex-start;gap:10px}
+  .prog-wrap{max-width:100%;width:100%}
+  .selected-county-badge{font-size:.68rem;padding:5px 12px}
+
+  /* Modal */
+  .modal{border-radius:18px 18px 0 0;max-height:95vh;margin-top:auto}
+  .ovl{align-items:flex-end;padding:0}
+  .mh{padding:24px 20px 18px}
+  .mh h2{font-size:1.35rem}
+  .mb2{padding:20px 20px 28px}
+  .frow{grid-template-columns:1fr;gap:0}
+  .fg.h{margin-bottom:14px}
+  .scout-strip{gap:8px}
+  .scout-fact{min-width:80px;padding:10px 12px}
+  .sf-val{font-size:1.2rem}
+
+  /* Members */
+  .mhdr{flex-direction:column;align-items:flex-start;gap:10px;margin-bottom:28px}
+  .mgrd{grid-template-columns:1fr 1fr;gap:12px}
+  .mc3{padding:16px}
+  .mav{width:38px;height:38px;font-size:.9rem;margin-bottom:10px}
+  .mn{font-size:.9rem}
+  .mco{font-size:.68rem}
+  .mrl{font-size:.66rem}
+  .mdt{font-size:.62rem}
+
+  /* Contact */
+  .cgrd{grid-template-columns:1fr;gap:32px}
+  .csh{font-size:1.65rem}
+  .citm{gap:9px}
+  .ci{padding:11px 14px;gap:12px}
+  .cico{width:36px;height:36px;border-radius:8px}
+  .cico svg{width:15px;height:15px}
+  .cil{font-size:.58rem}
+  .civ{font-size:.82rem}
+  .socs{gap:9px}
+  .soc{padding:8px 16px;font-size:.68rem}
+  .cfrm{padding:24px 20px}
+  .cfrm h3{font-size:1.15rem;margin-bottom:16px}
+  .ctsec::after{display:none} /* hide giant watermark text on mobile */
+
+  /* Footer */
+  footer{padding:28px 20px;flex-direction:column;align-items:flex-start;gap:16px}
+  .fn2{font-size:.82rem}
+  .fls{flex-wrap:wrap;gap:12px}
+  .fls a{font-size:.65rem}
+
+  /* Toast */
+  .toast{right:16px;bottom:16px;left:16px;max-width:none;font-size:.8rem}
+}
+
+/* Leaflet custom popup */
+.leaflet-popup-content-wrapper{border-radius:14px!important;box-shadow:var(--shL)!important;border-top:3px solid var(--a3);padding:0!important;overflow:hidden}
+.leaflet-popup-content{margin:0!important;width:auto!important}
+.lpop{padding:18px 22px 20px;min-width:200px}
+.lpop-county{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--a2);margin-bottom:5px}
+.lpop-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--g1);margin-bottom:8px}
+.lpop-stat{font-size:.78rem;color:var(--i2);margin-bottom:14px}
+.lpop-btn{width:100%;background:var(--g1);color:#fff;border:none;border-radius:8px;padding:10px;font-family:'Inter',sans-serif;font-size:.77rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.lpop-btn:hover{background:var(--g2)}
+.leaflet-popup-tip{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#" class="nb">
+    <div class="ne">
+      <svg viewBox="0 0 28 28" fill="none">
+        <path d="M14 3C11.8 5.5 10 8.2 10 10.5c0 2 1 3.5 2.8 4.2L10 25h8l-2.8-10.3c1.8-.7 2.8-2.2 2.8-4.2C18 8.2 16.2 5.5 14 3z" fill="#f59e0b"/>
+        <path d="M7 11C4.5 11 2 12.3 2 14.5S4.5 18 7 18l2.5-3.5L7 11zM21 11c2.5 0 5 1.3 5 3.5S23.5 18 21 18l-2.5-3.5L21 11z" fill="#f59e0b"/>
+        <circle cx="14" cy="23" r="1.5" fill="#f59e0b"/>
+        <line x1="11.5" y1="22.5" x2="16.5" y2="22.5" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="nw"><span class="nn">Vigogo</span><span class="ns">Vigogo Scouts of Kenya</span></div>
+  </a>
+  <ul class="nm">
+    <li><a href="#about">About</a></li>
+    <li><a href="#register">Register</a></li>
+    <li><a href="#members">Members</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#register" class="ncta">Register as Kigogo</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hl">
+    <div class="pill"><span class="pd"></span><span>Vigogo Scouts of Kenya — Est. 1910</span></div>
+    <h1 class="hh">Vigogo —<br><em>The Elders'<br>Council</em></h1>
+    <p class="hp">A distinguished fellowship of seasoned Scout leaders united across all 47 counties of Kenya. Register as a Kigogo and join the living legacy of Scouting — carrying forward over a century of wisdom and service.</p>
+    <div class="hbtns">
+      <a href="#register" class="bP">Register as Kigogo</a>
+      <a href="#about"    class="bS">Learn More</a>
+    </div>
+    <div class="hkpi">
+      <div><div class="kn" id="kpi-e">12</div><div class="kl">Registered Vigogos</div></div>
+      <div><div class="kn" id="kpi-c">8</div><div class="kl">Active Counties</div></div>
+      <div><div class="kn">47</div><div class="kl">Total Counties</div></div>
+    </div>
+  </div>
+  <div class="hr">
+    <div class="hflag"><div style="background:#000"></div><div style="background:#dc2626"></div><div style="background:#16a34a"></div><div style="background:#fff"></div></div>
+    <img class="hi"
+      src="https://images.unsplash.com/photo-1523805009345-7448845a9e53?w=900&q=80&fit=crop"
+      alt="Maasai Mara Kenya savannah sunrise"
+      onerror="this.src='https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=900&q=80'">
+    <div class="hg"></div>
+    <div class="hcard">
+      <div class="hcy">1910</div>
+      <div class="hct">Guardians of Scouting</div>
+      <div class="hcb">Preserving heritage and mentoring Kenya's next generation of Scout leaders across all 47 counties since the founding of the movement in 1910.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about sec" id="about">
+  <div class="sw">
+    <div class="ag">
+      <div class="is rv">
+        <img class="im"
+          src="https://images.unsplash.com/photo-1489392191049-fc10c97e64b6?w=800&q=80&fit=crop"
+          alt="Kenyan community elders gathering"
+          onerror="this.src='https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=800&q=80'">
+        <img class="ia"
+          src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?w=600&q=80&fit=crop"
+          alt="Scout leader in Kenya"
+          onerror="this.src='https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&q=80'">
+        <div class="ib"><strong>1910</strong><span>Founded</span></div>
+      </div>
+      <div>
+        <span class="lbl rv">Who We Are</span>
+        <h2 class="sh2 rv d1">Custodians of a Century of Scouting</h2>
+        <p class="sb rv d2">Vigogo is the Elders' Council of the Vigogo Scouts of Kenya — a fellowship of experienced Scout leaders who have given decades to building Kenya's youth. A Kigogo (singular) is a revered elder whose wisdom, service record, and commitment to Scouting earns them a place in this distinguished council.</p>
+        <p class="sb rv d3" style="margin-top:14px">Our Vigogos mentor active leaders, advise county and national Scout councils, and preserve the traditions that have made Kenyan Scouting a model for East Africa for over a century.</p>
+        <div class="pills rv d4">
+          <div class="pl"><div class="plt">Heritage</div><div class="plb">Preserving Scouting traditions and institutional knowledge across generations.</div></div>
+          <div class="pl"><div class="plt">Mentorship</div><div class="plb">Guiding the next tier of Scout leaders with lived experience and wisdom.</div></div>
+          <div class="pl"><div class="plt">Service</div><div class="plb">Continued commitment to community and national development across Kenya.</div></div>
+          <div class="pl"><div class="plt">Unity</div><div class="plb">Connecting Vigogos from all 47 counties in shared purpose and brotherhood.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAP / REGISTER — dark green bg with real Leaflet map -->
+<section class="map-sec sec" id="register">
+  <div class="sw">
+    <div class="map-head rv">
+      <span class="lbl">Register as Kigogo</span>
+      <h2 class="sh2">Kenya Counties Map</h2>
+      <p class="sb">This is a real, live map of Kenya. Zoom in, pan around, and click on any county to register as a Kigogo for that county. Your National ID ensures you can only register once across the entire platform.</p>
+    </div>
+
+    <div class="map-container rv d1">
+      <div class="map-topbar">
+        <div class="map-topbar-l">
+          <span class="live-dot"></span>
+          <span class="map-topbar-txt">Interactive Kenya County Map — click any county to register as Kigogo</span>
+        </div>
+        <div class="map-legend">
+          <div class="leg"><div class="leg-d" style="background:#166534"></div> Vigogo registered</div>
+          <div class="leg"><div class="leg-d" style="background:#c8dba2;border:1px solid #aaa"></div> Available</div>
+          <div class="map-zoom-hint">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35M11 8v6M8 11h6"/></svg>
+            Scroll to zoom
+          </div>
+        </div>
+      </div>
+
+      <div id="map"></div>
+      <!-- Mobile scroll trap fix: tap-to-activate overlay -->
+      <div class="map-touch-guard active" id="map-touch-guard" onclick="activateMap()">
+        <div class="map-touch-guard-inner">
+          <div class="map-touch-guard-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          </div>
+          <div class="map-touch-guard-txt">Tap to interact with the map</div>
+          <div class="map-touch-guard-sub">Scroll outside the map to continue browsing</div>
+        </div>
+      </div>
+      <!-- Desktop hint -->
+      <div class="map-scroll-note" id="map-scroll-note">Click map to enable scroll-zoom</div>
+
+      <div class="map-bottombar">
+        <div class="prog-wrap">
+          <div class="prog-lbl"><span>Registration coverage</span><strong id="prog-txt">0 / 47 counties</strong></div>
+          <div class="prog-bg"><div class="prog-fill" id="prog-bar" style="width:0%"></div></div>
+        </div>
+        <div class="selected-county-badge hidden" id="sel-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span id="sel-badge-txt">Nairobi County</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBERS -->
+<section class="mbsec sec" id="members">
+  <div class="sw">
+    <div class="mhdr">
+      <div>
+        <span class="lbl rv">Our Community</span>
+        <h2 class="sh2 rv d1">Registered Vigogos</h2>
+      </div>
+      <div class="mcbdg rv d2"><strong id="mc-n">12</strong> Vigogos registered</div>
+    </div>
+    <div class="mgrd" id="mgrd"></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="ctsec sec" id="contact">
+  <div class="sw">
+    <div class="cgrd">
+      <div>
+        <span class="lbl clbl rv">Get In Touch</span>
+        <h2 class="csh rv d1">Contact the Vigogo Council</h2>
+        <p class="cdsc rv d2">Reach out for membership queries, county coordination, or general Scouting enquiries. We welcome correspondence from all across Kenya.</p>
+        <div class="citm rv d3">
+          <a href="mailto:vigogo@kenyascouts.com" class="ci">
+            <div class="cico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div>
+            <div><div class="cil">Primary Email</div><div class="civ">vigogo@kenyascouts.com</div></div>
+          </a>
+          <a href="mailto:registration@kenyascouts.com" class="ci">
+            <div class="cico"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg></div>
+            <div><div class="cil">Registrations</div><div class="civ">registration@kenyascouts.com</div></div>
+          </a>
+          <a href="tel:+254746155155" class="ci">
+            <div class="cico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.69 11.5a19.79 19.79 0 01-3.07-8.67A2 2 0 013.62 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L7.91 8.69a16 16 0 006 6l.96-.96a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+            <div><div class="cil">Phone / WhatsApp</div><div class="civ">+254 746 155 155</div></div>
+          </a>
+          <a href="https://www.kenyascouts.com" target="_blank" class="ci">
+            <div class="cico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+            <div><div class="cil">Official Website</div><div class="civ">www.kenyascouts.com</div></div>
+          </a>
+        </div>
+        <div class="socs rv d4">
+          <a href="https://www.facebook.com/KSAVIGOGOS" target="_blank" class="soc sf">
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            KSA Vigogos
+          </a>
+          <a href="https://www.kenyascouts.com" target="_blank" class="soc sw3">kenyascouts.com</a>
+        </div>
+      </div>
+      <div class="rv d2">
+        <div class="cfrm">
+          <h3>Send a Message</h3>
+          <div class="cfg"><label class="cfl">Full Name</label><input type="text" id="cf-n" class="cfi" placeholder="Your full name"></div>
+          <div class="cfg"><label class="cfl">Email Address</label><input type="email" id="cf-e" class="cfi" placeholder="your@email.com"></div>
+          <div class="cfg"><label class="cfl">County</label><select id="cf-co" class="cfi"><option value="">Select county…</option></select></div>
+          <div class="cfg"><label class="cfl">Message</label><textarea id="cf-m" rows="4" class="cfi" placeholder="Your message…" style="resize:none"></textarea></div>
+          <button class="cfsub" onclick="sendMsg()">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="fb">
+    <div class="fem">
+      <svg viewBox="0 0 28 28" fill="none"><path d="M14 3C11.8 5.5 10 8.2 10 10.5c0 2 1 3.5 2.8 4.2L10 25h8l-2.8-10.3c1.8-.7 2.8-2.2 2.8-4.2C18 8.2 16.2 5.5 14 3z" fill="#f59e0b"/><path d="M7 11C4.5 11 2 12.3 2 14.5S4.5 18 7 18l2.5-3.5L7 11zM21 11c2.5 0 5 1.3 5 3.5S23.5 18 21 18l-2.5-3.5L21 11z" fill="#f59e0b"/></svg>
+    </div>
+    <span class="fn2">Vigogo — The Elders' Council</span>
+  </a>
+  <div class="fls">
+    <a href="#about">About</a><a href="#register">Register</a>
+    <a href="#members">Members</a><a href="#contact">Contact</a>
+    <a href="https://www.kenyascouts.com" target="_blank">KSA Website</a>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+    <div class="fflag"><div style="background:#000"></div><div style="background:#dc2626"></div><div style="background:#16a34a"></div><div style="background:#fff"></div></div>
+    <div class="fcp">© 2025 Vigogo Scouts of Kenya. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="ovl" id="ovl"><div class="modal" id="modal"><div id="mbody"></div></div></div>
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+const ALL_COUNTIES = [
+  "Mombasa","Kwale","Kilifi","Tana River","Lamu","Taita-Taveta","Garissa",
+  "Wajir","Mandera","Marsabit","Isiolo","Meru","Tharaka-Nithi","Embu","Kitui",
+  "Machakos","Makueni","Nyandarua","Nyeri","Kirinyaga","Muranga","Kiambu",
+  "Turkana","West Pokot","Samburu","Trans Nzoia","Uasin Gishu","Elgeyo-Marakwet",
+  "Nandi","Baringo","Laikipia","Nakuru","Narok","Kajiado","Kericho","Bomet",
+  "Kakamega","Vihiga","Bungoma","Busia","Siaya","Kisumu","Homa Bay","Migori",
+  "Kisii","Nyamira","Nairobi"
+];
+const ROLES = [
+  "County Scout Commissioner","Deputy Scout Commissioner","Scout Elder / Kigogo",
+  "District Scout Leader","County Scout Executive","Vigogo Representative","Patron","Other"
+];
+const SEED = [
+  {id:"23100021",fname:"James",    lname:"Ochieng",  county:"Kisumu",     role:"County Scout Commissioner",  years:"32",phone:"+254720000001",email:"j.ochieng@example.com",   date:"12 March 2025"},
+  {id:"14200043",fname:"Mary",     lname:"Wanjiku",  county:"Nyeri",      role:"Scout Elder / Kigogo",        years:"28",phone:"+254720000002",email:"m.wanjiku@example.com",   date:"15 March 2025"},
+  {id:"30500087",fname:"Samuel",   lname:"Koech",    county:"Nakuru",     role:"Deputy Scout Commissioner",  years:"24",phone:"+254720000003",email:"s.koech@example.com",     date:"18 March 2025"},
+  {id:"55100034",fname:"Grace",    lname:"Auma",     county:"Nairobi",    role:"Vigogo Representative",      years:"35",phone:"+254720000004",email:"g.auma@example.com",      date:"20 March 2025"},
+  {id:"18700065",fname:"Peter",    lname:"Mutua",    county:"Machakos",   role:"County Scout Executive",     years:"19",phone:"+254720000005",email:"p.mutua@example.com",     date:"22 March 2025"},
+  {id:"40600012",fname:"Esther",   lname:"Chebet",   county:"Kericho",    role:"Scout Elder / Kigogo",        years:"27",phone:"+254720000006",email:"e.chebet@example.com",    date:"25 March 2025"},
+  {id:"26300098",fname:"David",    lname:"Ngugi",    county:"Kiambu",     role:"Patron",                     years:"40",phone:"+254720000007",email:"d.ngugi@example.com",     date:"28 March 2025"},
+  {id:"71200033",fname:"Fatuma",   lname:"Hassan",   county:"Mombasa",    role:"County Scout Commissioner",  years:"22",phone:"+254720000008",email:"f.hassan@example.com",    date:"1 April 2025"},
+  {id:"32900045",fname:"John",     lname:"Kamau",    county:"Muranga",    role:"District Scout Leader",      years:"15",phone:"+254720000009",email:"j.kamau@example.com",     date:"3 April 2025"},
+  {id:"48100076",fname:"Agnes",    lname:"Atieno",   county:"Siaya",      role:"Scout Elder / Kigogo",        years:"30",phone:"+254720000010",email:"a.atieno@example.com",    date:"5 April 2025"},
+  {id:"60200054",fname:"Robert",   lname:"Langat",   county:"Bomet",      role:"Deputy Scout Commissioner",  years:"18",phone:"+254720000011",email:"r.langat@example.com",    date:"8 April 2025"},
+  {id:"17500039",fname:"Caroline", lname:"Njeri",    county:"Nyandarua",  role:"Vigogo Representative",      years:"25",phone:"+254720000012",email:"c.njeri@example.com",     date:"10 April 2025"},
+];
+
+let regs = JSON.parse(localStorage.getItem('vg4') || JSON.stringify(SEED));
+let leafletMap = null;
+let geojsonLayer = null;
+let currentCo = '';
+
+// County registration counts
+function countyCnt(name){ return regs.filter(r=>r.county===name).length; }
+function countyHasReg(name){ return countyCnt(name) > 0; }
+
+// ── LEAFLET MAP INIT ──────────────────────────────────────────
+function initMap(){
+  leafletMap = L.map('map', {
+    center: [0.5, 37.9],
+    zoom: 6,
+    minZoom: 5,
+    maxZoom: 12,
+    zoomControl: true,
+    attributionControl: true,
+    maxBounds: [[-5, 33], [6.5, 42.5]],
+    maxBoundsViscosity: 0.8,
+    scrollWheelZoom: false,   // disabled until user clicks — prevents page scroll trap
+    dragging: true,
+    tap: false                // we handle tap manually via touch guard
+  });
+
+  // On desktop: clicking the map enables scroll-zoom, clicking outside disables it
+  leafletMap.on('focus', () => {
+    leafletMap.scrollWheelZoom.enable();
+    document.getElementById('map-scroll-note').classList.remove('show');
+  });
+  leafletMap.on('blur', () => {
+    leafletMap.scrollWheelZoom.disable();
+  });
+
+  // Show hint when mouse enters map on desktop
+  const mapEl = document.getElementById('map');
+  mapEl.addEventListener('mouseenter', () => {
+    if(window.innerWidth > 960){
+      leafletMap.scrollWheelZoom.enable();
+      const note = document.getElementById('map-scroll-note');
+      note.classList.add('show');
+      setTimeout(() => note.classList.remove('show'), 2000);
+    }
+  });
+  mapEl.addEventListener('mouseleave', () => {
+    if(window.innerWidth > 960){
+      leafletMap.scrollWheelZoom.disable();
+    }
+  });
+
+  // CartoDB Positron — clean light basemap
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20
+  }).addTo(leafletMap);
+
+  loadGeoJSON();
+}
+
+// Called when user taps the mobile overlay — enables full map interaction
+function activateMap(){
+  const guard = document.getElementById('map-touch-guard');
+  guard.style.opacity = '0';
+  setTimeout(() => {
+    guard.style.display = 'none';
+    // Re-enable dragging and touch on mobile
+    leafletMap.dragging.enable();
+    leafletMap.tap && leafletMap.tap.enable();
+    leafletMap.scrollWheelZoom.enable();
+    // Add a "back to page" button so user can escape the map
+    addMapEscapeBtn();
+  }, 250);
+}
+
+// Adds a floating "Done — scroll page" button above the map on mobile
+function addMapEscapeBtn(){
+  if(document.getElementById('map-escape')) return;
+  const btn = document.createElement('button');
+  btn.id = 'map-escape';
+  btn.textContent = 'Done — continue scrolling';
+  btn.style.cssText = `
+    position:absolute;top:12px;left:50%;transform:translateX(-50%);
+    z-index:600;background:rgba(10,46,20,.9);color:#fff;
+    border:none;border-radius:50px;padding:9px 20px;
+    font-family:Inter,sans-serif;font-size:.76rem;font-weight:700;
+    letter-spacing:.05em;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.3);
+    white-space:nowrap;
+  `;
+  btn.onclick = () => {
+    // Show guard again so page scroll works
+    const guard = document.getElementById('map-touch-guard');
+    guard.style.display = 'flex';
+    guard.style.opacity = '1';
+    leafletMap.dragging.disable();
+    leafletMap.scrollWheelZoom.disable();
+    btn.remove();
+  };
+  document.querySelector('.map-container').style.position = 'relative';
+  document.getElementById('map').parentNode.insertBefore(btn, document.getElementById('map'));
+}
+
+
+function loadGeoJSON(){
+  // Using a reliable public CDN for Kenya counties GeoJSON
+  const url = 'https://raw.githubusercontent.com/faeldon/philippines-json-maps/master/2023/geojson/regions/lowres/filtered-regions-10m.0.0.1.json';
+  // Use the correct Kenya counties GeoJSON from a reliable public source
+  // We'll use the Humanitarian Data Exchange via a CORS proxy approach
+  // Actually, use the well-known public Kenya counties from GitHub raw
+  fetch('https://raw.githubusercontent.com/Ronoh4/Leaflet-Maps/master/KenyaCounty.geojson')
+    .then(r => {
+      if(!r.ok) throw new Error('Network');
+      return r.json();
+    })
+    .then(data => renderCounties(data))
+    .catch(() => {
+      // Fallback: try alternate source
+      fetch('https://gist.githubusercontent.com/njoroge/c57b30c8c76e66c8c0bb0c7b3e5bfee5/raw/kenya_counties.geojson')
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(data => renderCounties(data))
+        .catch(() => fallbackGeoJSON());
+    });
+}
+
+function renderCounties(data){
+  // Normalize property names — different GeoJSON sources use different keys
+  geojsonLayer = L.geoJSON(data, {
+    style: feature => styleCounty(getCountyName(feature)),
+    onEachFeature: (feature, layer) => {
+      const name = getCountyName(feature);
+      layer.on({
+        mouseover: e => highlightCounty(e, name),
+        mouseout:  e => resetCounty(e, name),
+        click:     e => clickCounty(e, name)
+      });
+    }
+  }).addTo(leafletMap);
+
+  // Fit to Kenya bounds
+  try { leafletMap.fitBounds(geojsonLayer.getBounds(), {padding:[10,10]}); } catch(e){}
+}
+
+function getCountyName(feature){
+  const p = feature.properties || {};
+  // Try multiple common property names for county name
+  return p.COUNTY_NAM || p.county || p.County || p.NAME_1 || p.name || p.ADM1_EN || p.ADM1NAME || p.shapeName || '';
+}
+
+function styleCounty(name){
+  const has = countyHasReg(name);
+  return {
+    fillColor:   has ? '#166534' : '#c8e6cc',
+    fillOpacity: has ? 0.75 : 0.55,
+    color:       '#fff',
+    weight:      1.5,
+    opacity:     1
+  };
+}
+
+function highlightCounty(e, name){
+  const layer = e.target;
+  const has = countyHasReg(name);
+  layer.setStyle({
+    fillColor:   has ? '#16a34a' : '#f59e0b',
+    fillOpacity: 0.85,
+    weight: 2.5,
+    color: '#fff'
+  });
+  layer.bringToFront();
+
+  // Update badge
+  currentCo = name;
+  const badge = document.getElementById('sel-badge');
+  document.getElementById('sel-badge-txt').textContent = name + ' County';
+  badge.classList.remove('hidden');
+}
+
+function resetCounty(e, name){
+  geojsonLayer.resetStyle(e.target);
+  // reapply correct style
+  e.target.setStyle(styleCounty(name));
+}
+
+function clickCounty(e, name){
+  if(!name){ toast('County name not found — try another area.'); return; }
+  currentCo = name;
+  const cnt = countyCnt(name);
+  const popContent = `
+    <div class="lpop">
+      <div class="lpop-county">Kenya County</div>
+      <div class="lpop-name">${name}</div>
+      <div class="lpop-stat">${cnt ? cnt+' Kigogo'+(cnt>1?'s':'')+' registered' : 'No Vigogos registered yet'}</div>
+      <button class="lpop-btn" onclick="openM('${name.replace(/'/g,"\\'")}')">Register as Kigogo</button>
+    </div>`;
+  L.popup({closeButton:true, maxWidth:240, className:'clean-popup'})
+    .setLatLng(e.latlng)
+    .setContent(popContent)
+    .openOn(leafletMap);
+}
+
+// ── FALLBACK: draw Kenya outline only if GeoJSON fails ─────────
+function fallbackGeoJSON(){
+  // Simple polygon for Kenya border as absolute fallback
+  const kenyaBounds = L.rectangle([[-4.7,33.9],[5.0,41.9]],{
+    color:'#166534',weight:2,fillOpacity:0.1,fillColor:'#c8e6cc',dashArray:'6,4'
+  }).addTo(leafletMap);
+  
+  // Add a note on map
+  L.control.attribution({prefix: 'County boundaries loading…'}).addTo(leafletMap);
+  
+  // Try one more fallback URL
+  fetch('https://raw.githubusercontent.com/datasets/geo-boundaries-world-110m/master/countries.geojson')
+    .then(r=>r.json())
+    .then(data=>{
+      const kenya = data.features.find(f=>(f.properties.name||'').includes('Kenya'));
+      if(kenya) L.geoJSON({type:'FeatureCollection',features:[kenya]},{
+        style:{fillColor:'#c8e6cc',fillOpacity:0.5,color:'#166534',weight:2}
+      }).addTo(leafletMap);
+    }).catch(()=>{});
+
+  // Still show clickable county buttons below map
+  showCountyGrid();
+}
+
+function showCountyGrid(){
+  const bar = document.querySelector('.map-bottombar');
+  const grid = document.createElement('div');
+  grid.style.cssText='display:flex;flex-wrap:wrap;gap:6px;padding:14px 20px 16px;background:#fafafa;border-top:1px solid var(--i4)';
+  ALL_COUNTIES.forEach(co=>{
+    const btn=document.createElement('button');
+    btn.textContent=co;
+    btn.style.cssText='background:var(--g1);color:white;border:none;border-radius:20px;padding:5px 12px;font-size:.7rem;font-weight:600;cursor:pointer;font-family:Inter,sans-serif;letter-spacing:.04em';
+    btn.addEventListener('mouseenter',()=>btn.style.background='var(--g2)');
+    btn.addEventListener('mouseleave',()=>btn.style.background='var(--g1)');
+    btn.onclick=()=>openM(co);
+    grid.appendChild(btn);
+  });
+  document.getElementById('map').parentNode.insertBefore(grid, bar);
+}
+
+// ── MODAL ─────────────────────────────────────────────────────
+function openM(co){
+  if(!co){ toast('Please select a county first.'); return; }
+  currentCo = co;
+  const cnt = countyCnt(co);
+  document.getElementById('mbody').innerHTML = buildForm(co, cnt);
+  document.getElementById('ovl').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeM(){
+  document.getElementById('ovl').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('ovl').addEventListener('click', e=>{
+  if(e.target===document.getElementById('ovl')) closeM();
+});
+
+function buildForm(co, cnt){
+  const cOpts = ALL_COUNTIES.map(c=>`<option${c===co?' selected':''}>${c}</option>`).join('');
+  const rOpts = ROLES.map(r=>`<option>${r}</option>`).join('');
+  return `
+  <div class="mh">
+    <button class="mc2" onclick="closeM()">&#x2715;</button>
+    <div class="mtag">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      ${co} County
+    </div>
+    <h2>Register as Kigogo</h2>
+    <p>Complete the form below to join the Vigogo council as an Elder representing ${co} County.</p>
+  </div>
+  <div class="mb2">
+    <div class="scout-strip">
+      <div class="scout-fact"><div class="sf-val">${cnt||0}</div><div class="sf-lbl">Current Vigogos in ${co}</div></div>
+      <div class="scout-fact"><div class="sf-val">${regs.length}</div><div class="sf-lbl">Total Vigogos Nationwide</div></div>
+      <div class="scout-fact"><div class="sf-val">1910</div><div class="sf-lbl">Year KSA Founded</div></div>
+    </div>
+    <div class="id-note"><strong>National ID is your unique key.</strong> The system uses your ID number to prevent duplicate registrations — each National ID may only be used once across the entire platform.</div>
+    <div class="frow">
+      <div class="fg h"><label class="fl">First Name <span class="r">*</span></label><input type="text" id="fn" placeholder="First name"><div class="em" id="efn">Required</div></div>
+      <div class="fg h"><label class="fl">Last Name <span class="r">*</span></label><input type="text" id="ln" placeholder="Last name"><div class="em" id="eln">Required</div></div>
+    </div>
+    <div class="fg"><label class="fl">National ID Number <span class="r">*</span></label><input type="text" id="nid" placeholder="e.g. 12345678" maxlength="8" inputmode="numeric"><div class="em" id="enid">Enter a valid 6–8 digit National ID</div></div>
+    <div class="frow">
+      <div class="fg h"><label class="fl">Phone <span class="r">*</span></label><input type="tel" id="ph" placeholder="+254 7XX XXX XXX"><div class="em" id="eph">Enter a valid number</div></div>
+      <div class="fg h"><label class="fl">Email</label><input type="email" id="em2" placeholder="you@example.com"></div>
+    </div>
+    <div class="frow">
+      <div class="fg h"><label class="fl">County <span class="r">*</span></label><select id="co">${cOpts}</select></div>
+      <div class="fg h"><label class="fl">Role / Title <span class="r">*</span></label><select id="ro">${rOpts}</select></div>
+    </div>
+    <div class="fg"><label class="fl">Years in Scouting</label><input type="number" id="yr" placeholder="e.g. 20" min="1" max="70"></div>
+    <hr class="mdiv">
+    <button class="sbtn" id="sbtn" onclick="doSub()">
+      <span id="stxt">Register as Kigogo</span>
+      <div class="spin" id="sspin"></div>
+    </button>
+  </div>`;
+}
+
+function doSub(){
+  const fn=gv('fn'),ln=gv('ln'),nid=gv('nid'),ph=gv('ph'),
+        em=gv('em2'),co=gv('co'),ro=gv('ro'),yr=gv('yr');
+  let ok=true;
+  if(!fn){setE('efn','fn','Required');ok=false}else clE('efn','fn');
+  if(!ln){setE('eln','ln','Required');ok=false}else clE('eln','ln');
+  if(!/^\d{6,8}$/.test(nid)){setE('enid','nid','Enter a valid 6–8 digit National ID');ok=false}else clE('enid','nid');
+  if(ph.length<9){setE('eph','ph','Enter a valid phone number');ok=false}else clE('eph','ph');
+  if(!ok) return;
+  const dup=regs.find(r=>r.id===nid);
+  if(dup){setE('enid','nid',`ID already registered — ${dup.fname} ${dup.lname}, ${dup.county}`);return;}
+  const btn=document.getElementById('sbtn');
+  btn.disabled=true;
+  document.getElementById('stxt').style.display='none';
+  document.getElementById('sspin').style.display='block';
+  setTimeout(()=>{
+    const rec={id:nid,fname:fn,lname:ln,phone:ph,email:em,county:co,role:ro,
+      years:yr||'—',date:new Date().toLocaleDateString('en-KE',{day:'numeric',month:'long',year:'numeric'})};
+    regs.push(rec);
+    localStorage.setItem('vg4',JSON.stringify(regs));
+    refreshMapStyles();
+    renderMembers();
+    updateStats();
+    showSuccess(rec);
+    toast(fn+' '+ln+' is now a registered Kigogo for '+co+' County.');
+  },1100);
+}
+
+function refreshMapStyles(){
+  if(geojsonLayer){
+    geojsonLayer.eachLayer(layer=>{
+      const name=getCountyName(layer.feature);
+      layer.setStyle(styleCounty(name));
+    });
+  }
+}
+
+function showSuccess(r){
+  const ref='VIG-'+String(Date.now()).slice(-6);
+  document.getElementById('mbody').innerHTML=`
+  <div class="sw2">
+    <div class="sc2"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <h3>Welcome, Kigogo!</h3>
+    <p>Congratulations, <strong>${r.fname} ${r.lname}</strong>. You are now a registered Kigogo of the Vigogo council representing <strong>${r.county} County</strong>.</p>
+    <div class="ref"><span>Registration Reference</span>${ref}</div>
+    <p style="font-size:.79rem;color:var(--i3)">Retain this reference. Confirmation will be sent to ${r.email||r.phone}.</p>
+    <button class="sbtn" onclick="closeM()" style="margin-top:22px">Done</button>
+  </div>`;
+}
+
+// helpers
+const gv=id=>(document.getElementById(id)?.value||'').trim();
+function setE(eid,iid,msg){const e=document.getElementById(eid);if(e){e.textContent=msg;e.classList.add('on')}document.getElementById(iid)?.classList.add('er')}
+function clE(eid,iid){document.getElementById(eid)?.classList.remove('on');document.getElementById(iid)?.classList.remove('er')}
+
+function updateStats(){
+  const cs=[...new Set(regs.map(r=>r.county))];
+  const ne=regs.length,nc=cs.length;
+  animN('kpi-e',ne);animN('kpi-c',nc);
+  document.getElementById('mc-n').textContent=ne;
+  document.getElementById('prog-txt').textContent=nc+' / 47 counties';
+  document.getElementById('prog-bar').style.width=(nc/47*100).toFixed(1)+'%';
+}
+function animN(id,v){
+  const el=document.getElementById(id);if(!el)return;
+  let cur=parseInt(el.textContent)||0;
+  if(cur===v)return;
+  const step=Math.sign(v-cur);
+  const t=setInterval(()=>{cur+=step;el.textContent=cur;if(cur===v)clearInterval(t)},40);
+}
+function renderMembers(){
+  const g=document.getElementById('mgrd');
+  if(!regs.length){
+    g.innerHTML=`<div class="empty"><div class="er2"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M20 21v-2a8 8 0 00-16 0v2"/></svg></div><h4>No Vigogos registered yet</h4><p>Be the first to register as Kigogo — select your county on the map above.</p></div>`;
+    return;
+  }
+  g.innerHTML=regs.map(r=>`
+    <div class="mc3">
+      <div class="mav">${r.fname[0]}${r.lname[0]}</div>
+      <div class="mn">${r.fname} ${r.lname}</div>
+      <div class="mco">${r.county} County</div>
+      <div class="mrl">${r.role}</div>
+      <div class="mdt">Registered ${r.date}</div>
+    </div>`).join('');
+}
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),4500);
+}
+function sendMsg(){
+  const n=gv('cf-n'),m=gv('cf-m');
+  if(!n||!m){toast('Please fill in your name and message.');return}
+  toast('Message sent. We will be in touch shortly, '+n+'.');
+  ['cf-n','cf-e','cf-co','cf-m'].forEach(id=>{ const el=document.getElementById(id); if(el)el.value=''; });
+}
+
+// populate contact county select
+ALL_COUNTIES.forEach(c=>{
+  const o=document.createElement('option');
+  o.value=c;o.textContent=c;
+  document.getElementById('cf-co').appendChild(o);
+});
+
+// ── NAV + SCROLL ─────────────────────────────────────────────
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('sc',scrollY>40));
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')});
+},{threshold:.1});
+document.querySelectorAll('.rv').forEach(el=>ro.observe(el));
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+  });
+});
+
+// ── INIT ─────────────────────────────────────────────────────
+initMap();
+renderMembers();
+updateStats();
+</script>
+</body>
+</html>
