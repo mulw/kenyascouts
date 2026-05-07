@@ -608,8 +608,8 @@ footer{background:#060d09;padding:36px 72px;display:flex;align-items:center;just
       <a href="#about"    class="bS">Learn More</a>
     </div>
     <div class="hkpi">
-      <div><div class="kn" id="kpi-e">12</div><div class="kl">Registered Vigogos</div></div>
-      <div><div class="kn" id="kpi-c">8</div><div class="kl">Active Counties</div></div>
+      <div><div class="kn" id="kpi-e">0</div><div class="kl">Registered Vigogos</div></div>
+      <div><div class="kn" id="kpi-c">0</div><div class="kl">Active Counties</div></div>
       <div><div class="kn">47</div><div class="kl">Total Counties</div></div>
     </div>
   </div>
@@ -720,7 +720,7 @@ footer{background:#060d09;padding:36px 72px;display:flex;align-items:center;just
         <span class="lbl rv">Our Community</span>
         <h2 class="sh2 rv d1">Registered Vigogos</h2>
       </div>
-      <div class="mcbdg rv d2"><strong id="mc-n">12</strong> Vigogos registered</div>
+      <div class="mcbdg rv d2"><strong id="mc-n">0</strong> Vigogos registered</div>
     </div>
     <div class="mgrd" id="mgrd"></div>
   </div>
@@ -813,8 +813,7 @@ const ROLES = [
   "County Scout Commissioner","Deputy Scout Commissioner","Scout Elder / Kigogo",
   "District Scout Leader","County Scout Executive","Vigogo Representative","Patron","Other"
 ];
-
-let regs = JSON.parse(localStorage.getItem('vg4') || JSON.stringify(SEED));
+let regs = JSON.parse(localStorage.getItem('vg4') || '[]');
 let leafletMap = null;
 let geojsonLayer = null;
 let currentCo = '';
